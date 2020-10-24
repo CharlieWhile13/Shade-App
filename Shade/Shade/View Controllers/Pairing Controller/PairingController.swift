@@ -25,7 +25,6 @@ class PairingController: UIViewController {
     }
     
     func setup() {
-        self.dynamicColourView.setAlpha = 0.25
         self.dynamicColourView.setup()
     }
     

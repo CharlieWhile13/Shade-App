@@ -43,18 +43,6 @@ extension CAGradientLayer {
         }
     }
     
-    static let points: [CGPoint] = [
-        CGPoint(x: 0, y: 0),
-        CGPoint(x: 0, y: 0.5),
-        CGPoint(x: 0, y: 1.0),
-        CGPoint(x: 0.5, y: 1.0),
-        CGPoint(x: 0.5, y: 0.5),
-        CGPoint(x: 0.5, y: 0.0),
-        CGPoint(x: 1.0, y: 0.0),
-        CGPoint(x: 1.0, y: 0.5),
-        CGPoint(x: 1.0, y: 1.0)
-    ]
-    
     convenience init(start: Point, end: Point, colors: [CGColor], type: CAGradientLayerType) {
         self.init()
         self.startPoint = start.point

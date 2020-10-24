@@ -7,21 +7,12 @@
 
 import UIKit
 
-class GradientView : UIView {
-    var gradientLayer: CAGradientLayer?
-    
-    override class var layerClass: AnyClass {
-        return CAGradientLayer.self
-    }
-}
-
 class DynamicColourView: UIView {
     
     @IBInspectable private var enableRandomColour: Bool = false
-    @IBInspectable private var enableRotation: Bool = false
+    private var container = UIView()
     
     var gradientLayer: CAGradientLayer!
-    var setAlpha: CGFloat!
     
     private func randomColour() -> UIColor {
         let red = CGFloat((arc4random() % 256)) / 255.0
@@ -53,8 +44,6 @@ class DynamicColourView: UIView {
     }
     
     public func setup() {
-        self.alpha = self.setAlpha
-        
         self.gradientLayer = CAGradientLayer(start: .topLeft, end: .bottomRight, colors: [randomColour().cgColor, randomColour().cgColor], type: .radial)
         self.gradientLayer.frame = self.bounds
 
@@ -63,20 +52,6 @@ class DynamicColourView: UIView {
         if enableRandomColour {
             self.randomColours()
         }
-        
-        if enableRotation {
-            self.rotate360()
-        }
-    }
-    
-    private func rotate360() {
-        let rotateAnimation = CABasicAnimation(keyPath: "transform.rotation")
-        rotateAnimation.fromValue = 0.0
-        rotateAnimation.toValue = CGFloat(Double.pi * 2.0)
-        rotateAnimation.duration = 10.0
-        rotateAnimation.delegate = self
-        
-        self.gradientLayer.add(rotateAnimation, forKey: nil)
     }
     
     private func randomColours() {
@@ -100,7 +75,6 @@ extension DynamicColourView: CAAnimationDelegate {
             
             switch animation.keyPath {
                 case "colors" : self.randomColours()
-                case "transform.rotation" : self.rotate360()
                 default : return
             }
 
