@@ -31,8 +31,10 @@ class DynamicColourView: UIView {
     override func awakeFromNib() {
         super.awakeFromNib()
         
+        self.alpha = 0.5
+        
         if !UIAccessibility.isReduceTransparencyEnabled {
-            let blurEffect = UIBlurEffect(style: .regular)
+            let blurEffect = UIBlurEffect(style: .extraLight)
             let blurEffectView = UIVisualEffectView(effect: blurEffect)
 
             blurEffectView.frame = self.self.bounds
@@ -41,17 +43,19 @@ class DynamicColourView: UIView {
             self.addSubview(blurEffectView)
         }
         
-        setupAnimations()
+        if random {
+            setupRandom()
+        }
     }
     
-    private func setupAnimations() {
+    private func setupRandom() {
         self.gradientLayer = CAGradientLayer(start: .topLeft, end: .bottomRight, colors: [randomColour().cgColor, randomColour().cgColor], type: .radial)
         self.gradientLayer.frame = self.bounds
         self.layer.addSublayer(self.gradientLayer)
-        self.animateChange()
+        self.randomChanges()
     }
         
-    private func animateChange() {
+    private func randomChanges() {
         let toColours = [randomColour().cgColor, randomColour().cgColor]
       
         let colourAnimation = CABasicAnimation(keyPath: "colors")
@@ -68,7 +72,9 @@ class DynamicColourView: UIView {
 
 extension DynamicColourView: CAAnimationDelegate {
     func animationDidStop(_ anim: CAAnimation, finished flag: Bool) {
-        self.animateChange()
+        if random {
+            self.randomChanges()
+        }
     }
 }
 
