@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		534F12DA2544641200B8E27A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 534F12D92544641200B8E27A /* AppDelegate.swift */; };
 		534F12DC2544641200B8E27A /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 534F12DB2544641200B8E27A /* SceneDelegate.swift */; };
-		534F12DE2544641200B8E27A /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 534F12DD2544641200B8E27A /* ViewController.swift */; };
 		534F12E12544641200B8E27A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 534F12DF2544641200B8E27A /* Main.storyboard */; };
 		534F12E32544642100B8E27A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 534F12E22544642100B8E27A /* Assets.xcassets */; };
 		534F12E62544642100B8E27A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 534F12E42544642100B8E27A /* LaunchScreen.storyboard */; };
@@ -17,13 +16,15 @@
 		534F12F825446B6A00B8E27A /* CAGradientLayer+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 534F12F725446B6900B8E27A /* CAGradientLayer+Extensions.swift */; };
 		53709A0125447BF10098E7FF /* LightCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 537099FF25447BF10098E7FF /* LightCell.swift */; };
 		53709A0225447BF20098E7FF /* LightCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 53709A0025447BF10098E7FF /* LightCell.xib */; };
+		53709A0E25449B6D0098E7FF /* BridgeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53709A0C25449B6D0098E7FF /* BridgeCell.swift */; };
+		53709A0F25449B6D0098E7FF /* BridgeCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 53709A0D25449B6D0098E7FF /* BridgeCell.xib */; };
+		53709A1625449F080098E7FF /* PairingController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53709A1525449F070098E7FF /* PairingController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		534F12D62544641200B8E27A /* Shade.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Shade.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		534F12D92544641200B8E27A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		534F12DB2544641200B8E27A /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		534F12DD2544641200B8E27A /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		534F12E02544641200B8E27A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		534F12E22544642100B8E27A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		534F12E52544642100B8E27A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -32,6 +33,9 @@
 		534F12F725446B6900B8E27A /* CAGradientLayer+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CAGradientLayer+Extensions.swift"; sourceTree = "<group>"; };
 		537099FF25447BF10098E7FF /* LightCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LightCell.swift; sourceTree = "<group>"; };
 		53709A0025447BF10098E7FF /* LightCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LightCell.xib; sourceTree = "<group>"; };
+		53709A0C25449B6D0098E7FF /* BridgeCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BridgeCell.swift; sourceTree = "<group>"; };
+		53709A0D25449B6D0098E7FF /* BridgeCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BridgeCell.xib; sourceTree = "<group>"; };
+		53709A1525449F070098E7FF /* PairingController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PairingController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -64,15 +68,13 @@
 		534F12D82544641200B8E27A /* Shade */ = {
 			isa = PBXGroup;
 			children = (
+				53709A202544E3C40098E7FF /* Storyboards */,
+				53709A1F2544E3B30098E7FF /* Delegates */,
+				53709A1125449DAA0098E7FF /* View Controllers */,
 				537099FD25447BB10098E7FF /* View Cells */,
 				534F12F625446B4C00B8E27A /* Extensions */,
 				534F12EF254467FD00B8E27A /* Views */,
-				534F12D92544641200B8E27A /* AppDelegate.swift */,
-				534F12DB2544641200B8E27A /* SceneDelegate.swift */,
-				534F12DD2544641200B8E27A /* ViewController.swift */,
-				534F12DF2544641200B8E27A /* Main.storyboard */,
 				534F12E22544642100B8E27A /* Assets.xcassets */,
-				534F12E42544642100B8E27A /* LaunchScreen.storyboard */,
 				534F12E72544642100B8E27A /* Info.plist */,
 			);
 			path = Shade;
@@ -105,6 +107,7 @@
 		537099FD25447BB10098E7FF /* View Cells */ = {
 			isa = PBXGroup;
 			children = (
+				53709A0525449B310098E7FF /* Bridge Cell */,
 				537099FE25447BBA0098E7FF /* Light Cell */,
 			);
 			path = "View Cells";
@@ -117,6 +120,49 @@
 				53709A0025447BF10098E7FF /* LightCell.xib */,
 			);
 			path = "Light Cell";
+			sourceTree = "<group>";
+		};
+		53709A0525449B310098E7FF /* Bridge Cell */ = {
+			isa = PBXGroup;
+			children = (
+				53709A0C25449B6D0098E7FF /* BridgeCell.swift */,
+				53709A0D25449B6D0098E7FF /* BridgeCell.xib */,
+			);
+			path = "Bridge Cell";
+			sourceTree = "<group>";
+		};
+		53709A1125449DAA0098E7FF /* View Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				53709A1325449E960098E7FF /* Pairing Controller */,
+			);
+			path = "View Controllers";
+			sourceTree = "<group>";
+		};
+		53709A1325449E960098E7FF /* Pairing Controller */ = {
+			isa = PBXGroup;
+			children = (
+				53709A1525449F070098E7FF /* PairingController.swift */,
+			);
+			path = "Pairing Controller";
+			sourceTree = "<group>";
+		};
+		53709A1F2544E3B30098E7FF /* Delegates */ = {
+			isa = PBXGroup;
+			children = (
+				534F12D92544641200B8E27A /* AppDelegate.swift */,
+				534F12DB2544641200B8E27A /* SceneDelegate.swift */,
+			);
+			path = Delegates;
+			sourceTree = "<group>";
+		};
+		53709A202544E3C40098E7FF /* Storyboards */ = {
+			isa = PBXGroup;
+			children = (
+				534F12DF2544641200B8E27A /* Main.storyboard */,
+				534F12E42544642100B8E27A /* LaunchScreen.storyboard */,
+			);
+			path = Storyboards;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -176,6 +222,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				53709A0F25449B6D0098E7FF /* BridgeCell.xib in Resources */,
 				534F12E62544642100B8E27A /* LaunchScreen.storyboard in Resources */,
 				534F12E32544642100B8E27A /* Assets.xcassets in Resources */,
 				53709A0225447BF20098E7FF /* LightCell.xib in Resources */,
@@ -190,7 +237,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				534F12DE2544641200B8E27A /* ViewController.swift in Sources */,
+				53709A1625449F080098E7FF /* PairingController.swift in Sources */,
+				53709A0E25449B6D0098E7FF /* BridgeCell.swift in Sources */,
 				534F12F825446B6A00B8E27A /* CAGradientLayer+Extensions.swift in Sources */,
 				53709A0125447BF10098E7FF /* LightCell.swift in Sources */,
 				534F12DA2544641200B8E27A /* AppDelegate.swift in Sources */,
