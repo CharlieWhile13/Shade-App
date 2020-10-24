@@ -11,8 +11,7 @@ class DynamicColourView: UIView {
     
     @IBInspectable private var random: Bool = false
     
-    var gradientLayer: CAGradientLayer?
-    var setColours: [CGColor]!
+    var gradientLayer: CAGradientLayer!
     
     private func randomColour() -> UIColor {
         let red = CGFloat((arc4random() % 256)) / 255.0
@@ -31,66 +30,45 @@ class DynamicColourView: UIView {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-    
+        
+        if !UIAccessibility.isReduceTransparencyEnabled {
+            let blurEffect = UIBlurEffect(style: .regular)
+            let blurEffectView = UIVisualEffectView(effect: blurEffect)
+
+            blurEffectView.frame = self.self.bounds
+            blurEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+
+            self.addSubview(blurEffectView)
+        }
+        
         setupAnimations()
     }
     
     private func setupAnimations() {
-        self.setColours = [randomColour().cgColor, randomColour().cgColor]
-        self.gradientLayer = CAGradientLayer(start: .topLeft, end: .bottomRight, colors: self.setColours, type: .radial)
-        self.gradientLayer?.frame = self.bounds
+        self.gradientLayer = CAGradientLayer(start: .topLeft, end: .bottomRight, colors: [randomColour().cgColor, randomColour().cgColor], type: .radial)
+        self.gradientLayer.frame = self.bounds
+        self.layer.addSublayer(self.gradientLayer)
+        self.animateChange()
+    }
         
-        if self.gradientLayer != nil {
-            self.layer.addSublayer(self.gradientLayer!)
-            self.animateChange()
-        }
-    }
-    
-    @objc private func rotateController() {
-        UIView.animate(withDuration: 3, delay: 0, options: [.autoreverse, .repeat], animations: {
-            if self.gradientLayer != nil {
-                /*
-                let originalStart = self.gradientLayer!.startPoint
-                let originalEnd = self.gradientLayer!.endPoint
-                
-                let newStartX = self.addOneForPoint(originalStart.x)
-                let newEndX = self.addOneForPoint(originalEnd.x)
-                
-                let newStartY = self.addOneForPoint(originalStart.y)
-                let newEndY = self.addOneForPoint(originalEnd.y)
-                
-                let newStartPoint = CGPoint(x: newStartX, y: newStartY)
-                let newEndPoint = CGPoint(x: newEndX, y: newEndY)
-                */
-                
-                let newColours = [self.randomColour().cgColor, self.randomColour().cgColor]
-                
-                self.gradientLayer!.colors = newColours
-                //self.gradientLayer!.startPoint = newStartPoint
-                //self.gradientLayer!.endPoint = newEndPoint
-            }
-        }, completion: nil)
-    }
-    
     private func animateChange() {
-        print("This is running like a boss")
-        if self.gradientLayer != nil {
-            let animation = CABasicAnimation(keyPath: "colors")
-            animation.fromValue = self.setColours
-            self.setColours = [randomColour().cgColor, randomColour().cgColor]
-            animation.toValue = self.setColours
-            animation.duration = 5.0
-            animation.isRemovedOnCompletion = true
-            animation.delegate = self
-            
-            self.gradientLayer!.add(animation, forKey: nil)
-        }
+        let toColours = [randomColour().cgColor, randomColour().cgColor]
+      
+        let colourAnimation = CABasicAnimation(keyPath: "colors")
+        colourAnimation.fromValue = self.gradientLayer.colors
+        colourAnimation.toValue = toColours
+        colourAnimation.duration = 3.0
+        colourAnimation.isRemovedOnCompletion = true
+        colourAnimation.delegate = self
+     
+        self.gradientLayer.colors = toColours
+        self.gradientLayer.add(colourAnimation, forKey: nil)
     }
 }
 
 extension DynamicColourView: CAAnimationDelegate {
     func animationDidStop(_ anim: CAAnimation, finished flag: Bool) {
-        self.gradientLayer!.colors = setColours
         self.animateChange()
     }
 }
+
