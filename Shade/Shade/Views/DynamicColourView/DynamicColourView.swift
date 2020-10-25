@@ -45,8 +45,6 @@ class DynamicColourView: UIView {
     public func setup() {
         self.gradientLayer = CAGradientLayer(start: .topLeft, end: .bottomRight, colors: [randomColour().cgColor, randomColour().cgColor], type: .radial)
         self.gradientLayer.frame = self.bounds
-        self.gradientLayer.contentsScale = UIScreen.main.scale
-
         self.layer.addSublayer(self.gradientLayer)
         
         if enableRandomColour {
