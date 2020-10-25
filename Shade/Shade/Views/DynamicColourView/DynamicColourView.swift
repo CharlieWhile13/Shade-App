@@ -5,6 +5,9 @@
 //  Created by Charlie While on 24/10/2020.
 //
 
+
+//54PPlk5z6jwv8Hs9-1gh04ieb52Jzm6iP83yZSEK
+
 import UIKit
 
 class DynamicColourView: UIView {
@@ -21,13 +24,7 @@ class DynamicColourView: UIView {
         
         return UIColor(red: red, green: green, blue: blue, alpha: alpha)
     }
-    
-    private func addOneForPoint(_ point: CGFloat) -> CGFloat {
-        var point = point + 0.1
-        if point > 1.0 { point = 0.0 }
-        return point
-    }
-    
+ 
     override func awakeFromNib() {
         super.awakeFromNib()
                 

@@ -8,10 +8,12 @@
 import Foundation
 
 class NetworkManager {
-    let emptyDict = [[String : Any]]()
+    let emptyArrayDict = [[String : Any]]()
+    let emptyDict = [String : Any]()
     static let shared = NetworkManager()
     
     typealias requestCompletion = (_ success: Bool, _ dict: [[String : Any]]) -> ()
+    typealias requestDictCompletion = (_ success: Bool, _ dict: [String : Any]) -> ()
     
     public func generateStringFromDict(_ dict: [String : String]) -> String {
         let encoder = JSONEncoder()
@@ -39,6 +41,31 @@ class NetworkManager {
             if let data = data {
                 do {
                     let dict = try JSONSerialization.jsonObject(with: data, options: .mutableContainers) as? [[String : Any]] ?? [[String : Any]]()
+                    completion(true, dict)
+
+                } catch {
+                    completion(false, self.emptyArrayDict)
+                }
+            } else { completion(false, self.emptyArrayDict) }
+        }
+        task.resume()
+    }
+    
+    public func requestWithDict(url: URL, method: String, headers: [String : String]?, jsonbody: String?, completion: @escaping requestDictCompletion) {
+        var request = URLRequest(url: url)
+        request.httpMethod = method
+        request.httpBody = jsonbody?.data(using: .utf8)
+        
+        if let headers = headers {
+            for (key, value) in headers {
+                request.setValue(value, forHTTPHeaderField: key)
+            }
+        }
+        
+        let task = URLSession.shared.dataTask(with: request) { (data, response, error) -> Void in
+            if let data = data {
+                do {
+                    let dict = try JSONSerialization.jsonObject(with: data, options: .mutableContainers) as? [String : Any] ?? [String : Any]()
                     completion(true, dict)
 
                 } catch {

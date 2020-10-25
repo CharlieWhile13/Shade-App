@@ -17,7 +17,10 @@ class HomeScreenController: UIViewController {
         super.viewWillAppear(animated)
         if BridgeManager.shared.bridges.count == 0 {
             self.performSegue(withIdentifier: "Shade.ShowPairing", sender: nil)
+            return
         }
+        
+        print(LightManager.shared.grabLightsFromBridge())
     }
     
     @IBAction func unwind( _ seg: UIStoryboardSegue) {
@@ -25,11 +28,7 @@ class HomeScreenController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        
-        let domain = Bundle.main.bundleIdentifier!
-        UserDefaults.standard.removePersistentDomain(forName: domain)
-        UserDefaults.standard.synchronize()
+    
     }
     
 }
