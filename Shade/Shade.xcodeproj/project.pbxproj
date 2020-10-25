@@ -22,6 +22,7 @@
 		53A813F5254506C10013F232 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53A813F4254506C00013F232 /* NetworkManager.swift */; };
 		53A813F9254519870013F232 /* BridgeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53A813F8254519870013F232 /* BridgeManager.swift */; };
 		53A8140E2545D29F0013F232 /* HomeScreenController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53A8140D2545D29F0013F232 /* HomeScreenController.swift */; };
+		53FB6CD92545F7C9008264F5 /* LightManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53FB6CD82545F7C9008264F5 /* LightManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -42,6 +43,7 @@
 		53A813F4254506C00013F232 /* NetworkManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 		53A813F8254519870013F232 /* BridgeManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BridgeManager.swift; sourceTree = "<group>"; };
 		53A8140D2545D29F0013F232 /* HomeScreenController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeScreenController.swift; sourceTree = "<group>"; };
+		53FB6CD82545F7C9008264F5 /* LightManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LightManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -176,6 +178,7 @@
 		53A813F2254506830013F232 /* Backend */ = {
 			isa = PBXGroup;
 			children = (
+				53FB6CD72545F778008264F5 /* Light Manager */,
 				53A813F7254519640013F232 /* Bridge Manager */,
 				53A813F3254506980013F232 /* Network Manager */,
 			);
@@ -204,6 +207,14 @@
 				53A8140D2545D29F0013F232 /* HomeScreenController.swift */,
 			);
 			path = "Home Screen";
+			sourceTree = "<group>";
+		};
+		53FB6CD72545F778008264F5 /* Light Manager */ = {
+			isa = PBXGroup;
+			children = (
+				53FB6CD82545F7C9008264F5 /* LightManager.swift */,
+			);
+			path = "Light Manager";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -281,6 +292,7 @@
 				53709A1625449F080098E7FF /* PairingController.swift in Sources */,
 				53709A0E25449B6D0098E7FF /* BridgeCell.swift in Sources */,
 				53A813F9254519870013F232 /* BridgeManager.swift in Sources */,
+				53FB6CD92545F7C9008264F5 /* LightManager.swift in Sources */,
 				534F12F825446B6A00B8E27A /* CAGradientLayer+Extensions.swift in Sources */,
 				53709A0125447BF10098E7FF /* LightCell.swift in Sources */,
 				53A813F5254506C10013F232 /* NetworkManager.swift in Sources */,
