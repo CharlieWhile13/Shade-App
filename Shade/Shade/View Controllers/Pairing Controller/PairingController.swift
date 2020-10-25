@@ -29,13 +29,11 @@ enum PairingError {
 struct DiscoveredBridge {
     var displayName: String!
     var ip: String!
-    var id: String!
     var paired: Bool!
     
-    init(displayName: String?, ip: String?, id: String?, paired: Bool?) {
+    init(displayName: String?, ip: String?, paired: Bool?) {
         self.displayName = displayName
         self.ip = ip
-        self.id = id
         self.paired = paired
     }
 }
@@ -87,9 +85,9 @@ class PairingController: UIViewController {
         //Set the delegate/source
         self.tableView.delegate = self
         self.tableView.dataSource = self
-        //Roundy Corners
-        self.tableView.layer.masksToBounds = true
-        self.tableView.layer.cornerRadius = 15
+        //Bouncy Boi
+        self.tableView.alwaysBounceVertical = false
+
     }
     
     func setupNetworkChecking() {
@@ -162,6 +160,7 @@ class PairingController: UIViewController {
                                     self.discoveredBridges[index].displayName = "Paired : \(bridge.ip!)"
                                     self.discoveredBridges[index].paired = true
                                     self.tableView.reloadData()
+                                    self.continueButton.isHidden = false
                                 } else {
                                     self.errorWith(PairingError.bridgeError.error)
                                     return
@@ -189,9 +188,8 @@ class PairingController: UIViewController {
                         self.loadup()
 
                         for bridge in dict {
-                            let id = bridge["id"] as? String ?? ""
                             let ip = bridge["internalipaddress"] as? String ?? ""
-                            let bridgeObject = DiscoveredBridge(displayName: ip, ip: ip, id: id, paired: false)
+                            let bridgeObject = DiscoveredBridge(displayName: ip, ip: ip, paired: false)
                             self.discoveredBridges.append(bridgeObject)
                         }
                         
