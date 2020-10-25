@@ -22,8 +22,6 @@ class HomeScreenController: UIViewController {
             self.performSegue(withIdentifier: "Shade.ShowPairing", sender: nil)
             return
         }
-        
-        print(LightManager.shared.grabLightsFromBridge())
     }
     
     @IBAction func unwind( _ seg: UIStoryboardSegue) {
