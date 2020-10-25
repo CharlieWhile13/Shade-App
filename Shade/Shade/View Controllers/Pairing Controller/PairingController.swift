@@ -6,6 +6,17 @@
 //
 
 import UIKit
+import Network
+
+enum PairingError {
+    case wifi
+    
+    var error: String {
+        switch self {
+        case.wifi: return "Not on WiFi"
+        }
+    }
+}
 
 class PairingController: UIViewController {
     
@@ -17,6 +28,10 @@ class PairingController: UIViewController {
     @IBOutlet weak var retryButton: UIButton!
     @IBOutlet weak var dynamicColourView: DynamicColourView!
     
+    override var prefersStatusBarHidden: Bool {
+        return true
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -26,6 +41,37 @@ class PairingController: UIViewController {
     
     func setup() {
         self.dynamicColourView.setup()
+        
+        self.continueButton.isHidden = true
+        self.errorLabel.isHidden = true
+        self.retryButton.isHidden = true
+        self.manualLookup.isHidden = true
+        
+        self.setupNetworkChecking()
+    }
+    
+    func setupNetworkChecking() {
+        let monitor = NWPathMonitor()
+        monitor.pathUpdateHandler = { path in
+            self.isOnNetwork(path)
+        }
+        let queue = DispatchQueue(label: "NetworkMonitor")
+        monitor.start(queue: queue)
+    }
+    
+    func isOnNetwork(_ path: NWPath) {
+        DispatchQueue.main.async {
+            if !(path.usesInterfaceType(.wifi) || path.usesInterfaceType(.wiredEthernet)) {
+                self.errorLabel.text = PairingError.wifi.error
+                self.errorLabel.isHidden = false
+                self.retryButton.isHidden = false
+                self.searchingStack.isHidden = true
+            } else {
+                self.errorLabel.isHidden = true
+                self.retryButton.isHidden = true
+                self.searchingStack.isHidden = false
+            }
+        }
     }
     
     @IBAction func manualLookup(_ sender: Any) {
