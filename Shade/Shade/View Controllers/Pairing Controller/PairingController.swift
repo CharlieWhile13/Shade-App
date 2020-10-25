@@ -68,6 +68,7 @@ class PairingController: UIViewController {
         self.continueButton.isHidden = true
         self.errorLabel.isHidden = true
         self.retryButton.isHidden = true
+        self.retryButton.layer.borderColor = UIColor.label.cgColor;
         self.manualLookup.isHidden = true
         
         self.setupNetworkChecking()
