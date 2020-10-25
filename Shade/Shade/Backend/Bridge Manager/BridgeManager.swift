@@ -24,6 +24,12 @@ class BridgeManager {
     
     public func addBridge(ip: String, username: String) {
         var bridges = UserDefaults.standard.object(forKey: "PairedBridges") as? [[String : String]] ?? [[String : String]]()
+        for bridge in bridges {
+            if bridge["ip"] == ip {
+                return
+            }
+        }
+        
         let newBridge: [String : String] = [
             "ip" : ip,
             "username" : username

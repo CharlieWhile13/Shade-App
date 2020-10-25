@@ -49,6 +49,7 @@ class PairingController: UIViewController {
     @IBOutlet weak var dynamicColourView: DynamicColourView!
     
     var discoveredBridges = [DiscoveredBridge]()
+    var timer: Timer?
     
     override var prefersStatusBarHidden: Bool {
         return true
@@ -125,8 +126,8 @@ class PairingController: UIViewController {
         self.retryButton.isHidden = true
         self.searchingStack.isHidden = false
     }
-    
-    func attemptPairing() {
+
+    @objc func attemptPairing() {
         let body = [
                 "devicetype" : "Shade#\(UIDevice.current.name)"
             ]
@@ -149,6 +150,7 @@ class PairingController: UIViewController {
                                         let bridge = self.discoveredBridges[index]
                                         self.discoveredBridges[index].displayName = "Press Button : \(bridge.ip!)"
                                         self.tableView.reloadData()
+                                        self.timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(self.attemptPairing), userInfo: nil, repeats: false)
                                     } else {
                                         return
                                     }
@@ -163,6 +165,7 @@ class PairingController: UIViewController {
                                     self.continueButton.isHidden = false
                                 } else {
                                     self.errorWith(PairingError.bridgeError.error)
+                                    self.timer?.invalidate()
                                     return
                                 }
                             }
@@ -189,10 +192,24 @@ class PairingController: UIViewController {
 
                         for bridge in dict {
                             let ip = bridge["internalipaddress"] as? String ?? ""
-                            let bridgeObject = DiscoveredBridge(displayName: ip, ip: ip, paired: false)
-                            self.discoveredBridges.append(bridgeObject)
+                            var found = false
+                            for bridges in BridgeManager.shared.bridges {
+                                if !found {
+                                    if bridges.ip == ip {
+                                        let bridgeObject = DiscoveredBridge(displayName: "Paired : \(ip)", ip: ip, paired: true)
+                                        self.discoveredBridges.append(bridgeObject)
+                                        found = true
+                                    }
+                                }
+                            }
+                            
+                            if !found {
+                                let bridgeObject = DiscoveredBridge(displayName: ip, ip: ip, paired: false)
+                                self.discoveredBridges.append(bridgeObject)
+                            }
                         }
-                        
+                                            
+                        self.retryButton.isHidden = false
                         self.tableView.reloadData()
                         self.attemptPairing()
                         
@@ -212,6 +229,7 @@ class PairingController: UIViewController {
     }
     
     @IBAction func retryButton(_ sender: Any) {
+        self.timer?.invalidate()
         self.queryBridges()
     }
     

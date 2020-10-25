@@ -77,7 +77,7 @@
                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="250" id="D1R-vz-TWQ"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <state key="normal" title="Retry">
+                                <state key="normal" title="Rescan">
                                     <color key="titleColor" systemColor="labelColor"/>
                                 </state>
                                 <userDefinedRuntimeAttributes>
