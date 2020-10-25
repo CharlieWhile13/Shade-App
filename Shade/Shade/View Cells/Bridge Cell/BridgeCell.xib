@@ -17,17 +17,17 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <stackView opaque="NO" contentMode="scaleToFill" alignment="center" spacing="7.5" translatesAutoresizingMaskIntoConstraints="NO" id="X3e-lO-Rix">
-                        <rect key="frame" x="118" y="0.0" width="84" height="44"/>
+                        <rect key="frame" x="123" y="0.0" width="74" height="44"/>
                         <subviews>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="SGI-eD-5Kk">
-                                <rect key="frame" x="0.0" y="4.5" width="35" height="35"/>
+                                <rect key="frame" x="0.0" y="9.5" width="25" height="25"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="35" id="zGY-EL-8ix"/>
-                                    <constraint firstAttribute="height" constant="35" id="zxR-UT-pGH"/>
+                                    <constraint firstAttribute="width" constant="25" id="zGY-EL-8ix"/>
+                                    <constraint firstAttribute="height" constant="25" id="zxR-UT-pGH"/>
                                 </constraints>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TeR-xT-OFS">
-                                <rect key="frame" x="42.5" y="12" width="41.5" height="20.5"/>
+                                <rect key="frame" x="32.5" y="12" width="41.5" height="20.5"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>

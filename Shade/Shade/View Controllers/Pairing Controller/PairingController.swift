@@ -30,11 +30,13 @@ struct DiscoveredBridge {
     var displayName: String!
     var ip: String!
     var paired: Bool!
+    var ignore: Bool!
     
-    init(displayName: String?, ip: String?, paired: Bool?) {
+    init(displayName: String?, ip: String?, paired: Bool?, ignore: Bool?) {
         self.displayName = displayName
         self.ip = ip
         self.paired = paired
+        self.ignore = ignore
     }
 }
 
@@ -62,14 +64,24 @@ class PairingController: UIViewController {
         self.setup()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.setNavigationBarHidden(true, animated: animated)
+    }
+
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        navigationController?.setNavigationBarHidden(false, animated: animated)
+    }
+    
     func setup() {
         self.dynamicColourView.setup()
         
         self.continueButton.isHidden = true
         self.errorLabel.isHidden = true
         self.retryButton.isHidden = true
-        self.retryButton.layer.borderColor = UIColor.label.cgColor;
-        self.manualLookup.isHidden = true
+        self.retryButton.layer.borderColor = UIColor.label.cgColor
+        self.continueButton.layer.borderColor = UIColor.label.cgColor
         
         self.setupNetworkChecking()
         
@@ -89,6 +101,12 @@ class PairingController: UIViewController {
         self.tableView.dataSource = self
         //Bouncy Boi
         self.tableView.alwaysBounceVertical = false
+        
+        //Set the text view delegate
+        self.manualLookup.delegate = self
+        //Hide when tapped somewhere else
+        let tap = UITapGestureRecognizer(target: self, action: #selector(handleTap))
+        self.view.addGestureRecognizer(tap)
 
     }
     
@@ -105,12 +123,12 @@ class PairingController: UIViewController {
         DispatchQueue.main.async {
             if !(path.usesInterfaceType(.wifi) || path.usesInterfaceType(.wiredEthernet)) {
                 self.errorWith(PairingError.wifi.error)
+                self.manualLookup.isHidden = true
+                self.retryButton.isHidden = true
+                self.continueButton.isHidden = true
             } else {
                 self.loadup()
-                
-                DispatchQueue.global(qos: .userInitiated).async {
-                    self.queryBridges()
-                }
+                self.queryBridges()
             }
         }
     }
@@ -126,6 +144,7 @@ class PairingController: UIViewController {
         self.errorLabel.isHidden = true
         self.retryButton.isHidden = true
         self.searchingStack.isHidden = false
+        self.manualLookup.isHidden = false
     }
 
     @objc func attemptPairing() {
@@ -135,7 +154,7 @@ class PairingController: UIViewController {
         let bodyString = NetworkManager.shared.generateStringFromDict(body)
         
         for (index, bridge) in self.discoveredBridges.enumerated() {
-            if bridge.paired { continue }
+            if bridge.paired || bridge.ignore { continue }
             if let url = URL(string: "http://\(bridge.ip!)/api") {
                 NetworkManager.shared.request(url: url, method: "POST", headers: nil, jsonbody: bodyString, completion: { (success, dict) -> Void in
                     DispatchQueue.main.async {
@@ -170,6 +189,17 @@ class PairingController: UIViewController {
                                     return
                                 }
                             }
+                        } else {
+                            self.discoveredBridges.remove(at: index)
+                            var hasFound = false
+                            for bridge in self.discoveredBridges {
+                                if bridge.paired {
+                                    hasFound = true
+                                }
+                            }
+                            
+                            self.continueButton.isHidden = !hasFound
+                            self.tableView.reloadData()
                         }
                     }
                 })
@@ -187,6 +217,7 @@ class PairingController: UIViewController {
                         self.discoveredBridges.removeAll()
                         if dict.count == 0 {
                             self.errorWith(PairingError.noneFound.error)
+                            self.manualLookup.isHidden = false
                             return
                         }
                         self.loadup()
@@ -197,15 +228,16 @@ class PairingController: UIViewController {
                             for bridges in BridgeManager.shared.bridges {
                                 if !found {
                                     if bridges.ip == ip {
-                                        let bridgeObject = DiscoveredBridge(displayName: "Paired : \(ip)", ip: ip, paired: true)
+                                        let bridgeObject = DiscoveredBridge(displayName: "Paired : \(ip)", ip: ip, paired: true, ignore: false)
                                         self.discoveredBridges.append(bridgeObject)
                                         found = true
+                                        self.continueButton.isHidden = false
                                     }
                                 }
                             }
                             
                             if !found {
-                                let bridgeObject = DiscoveredBridge(displayName: ip, ip: ip, paired: false)
+                                let bridgeObject = DiscoveredBridge(displayName: ip, ip: ip, paired: false, ignore: false)
                                 self.discoveredBridges.append(bridgeObject)
                             }
                         }
@@ -222,11 +254,46 @@ class PairingController: UIViewController {
         }
     }
     
-    @IBAction func manualLookup(_ sender: Any) {
-        
+    func createErrorAlert(_ title: String, _ text: String) {
+        let alert = UIAlertController(title: title, message: text, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Ok", style: .cancel, handler: nil))
+        self.present(alert, animated: true)
+    }
+    
+    func manualLookupIP() {
+        if manualLookup.text == "" { return }
+        let text = manualLookup.text!
+        if let _ = URL(string: "http://\(text)/api" ) {
+            var isHad = false
+            for bridge in self.discoveredBridges {
+                if bridge.ip == text {
+                    
+                    isHad = true
+                }
+            }
+            for bridge in BridgeManager.shared.bridges {
+                if bridge.ip == text {
+                    isHad = true
+                }
+            }
+            
+            if isHad {
+                self.createErrorAlert("Already Found", "This Bridge has already been discovered")
+                return
+            }
+            
+            let bridgeObject = DiscoveredBridge(displayName: text, ip: text, paired: false, ignore: false)
+            self.discoveredBridges.append(bridgeObject)
+            self.attemptPairing()
+        } else {
+            self.createErrorAlert("Invalid IP", "This isn't a valid address to a Bridge")
+            return
+        }
     }
 
     @IBAction func continueButton(_ sender: Any) {
+        self.timer?.invalidate()
+        self.performSegue(withIdentifier: "Shade.ReturnFromPairing", sender: self)
     }
     
     @IBAction func retryButton(_ sender: Any) {
@@ -256,7 +323,20 @@ extension PairingController : UITableViewDataSource {
         
         cell.label.text = self.discoveredBridges[indexPath.row].displayName
         cell.hueImageView.image = UIImage(named: "BridgeIcon")
-
+        cell.minHeight = 50
+        
         return cell
+    }
+}
+
+extension PairingController: UITextFieldDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()// dismiss keyboard
+        self.manualLookupIP()
+        return true
+    }
+    
+    @objc func handleTap() {
+        self.manualLookup.resignFirstResponder()
     }
 }

@@ -21,6 +21,7 @@
 		53709A1625449F080098E7FF /* PairingController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53709A1525449F070098E7FF /* PairingController.swift */; };
 		53A813F5254506C10013F232 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53A813F4254506C00013F232 /* NetworkManager.swift */; };
 		53A813F9254519870013F232 /* BridgeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53A813F8254519870013F232 /* BridgeManager.swift */; };
+		53A8140E2545D29F0013F232 /* HomeScreenController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53A8140D2545D29F0013F232 /* HomeScreenController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -40,6 +41,7 @@
 		53709A1525449F070098E7FF /* PairingController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PairingController.swift; sourceTree = "<group>"; };
 		53A813F4254506C00013F232 /* NetworkManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 		53A813F8254519870013F232 /* BridgeManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BridgeManager.swift; sourceTree = "<group>"; };
+		53A8140D2545D29F0013F232 /* HomeScreenController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeScreenController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -139,6 +141,7 @@
 		53709A1125449DAA0098E7FF /* View Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				53A8140C2545D2860013F232 /* Home Screen */,
 				53709A1325449E960098E7FF /* Pairing Controller */,
 			);
 			path = "View Controllers";
@@ -193,6 +196,14 @@
 				53A813F8254519870013F232 /* BridgeManager.swift */,
 			);
 			path = "Bridge Manager";
+			sourceTree = "<group>";
+		};
+		53A8140C2545D2860013F232 /* Home Screen */ = {
+			isa = PBXGroup;
+			children = (
+				53A8140D2545D29F0013F232 /* HomeScreenController.swift */,
+			);
+			path = "Home Screen";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -275,6 +286,7 @@
 				53A813F5254506C10013F232 /* NetworkManager.swift in Sources */,
 				534F12DA2544641200B8E27A /* AppDelegate.swift in Sources */,
 				534F12DC2544641200B8E27A /* SceneDelegate.swift in Sources */,
+				53A8140E2545D29F0013F232 /* HomeScreenController.swift in Sources */,
 				534F12F22544683800B8E27A /* DynamicColourView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -423,7 +435,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = LZTMLLBH4L;
+				DEVELOPMENT_TEAM = 7J8FJX4SRX;
 				INFOPLIST_FILE = Shade/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -443,7 +455,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = LZTMLLBH4L;
+				DEVELOPMENT_TEAM = 7J8FJX4SRX;
 				INFOPLIST_FILE = Shade/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
