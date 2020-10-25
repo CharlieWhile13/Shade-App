@@ -6,8 +6,11 @@
 //
 
 import UIKit
+import MediaPlayer
 
 class HomeScreenController: UIViewController {
+    @IBOutlet weak var artworkView: UIImageView!
+    
     
     override var prefersStatusBarHidden: Bool {
         return true
@@ -26,6 +29,16 @@ class HomeScreenController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        
     
     }
+    
+    
+    private func getArtwork() -> UIImage {
+            let mediaItem = MPMediaItem()
+            return mediaItem.artwork?.image(at: CGSize(width: 150, height: 150)) ?? UIImage(named: "uwu")! //Fallback for if no music is playing
+        }
+    
 }
+
