@@ -53,6 +53,18 @@ class HomeScreenController: UIViewController {
         self.collectionView.showsHorizontalScrollIndicator = false
         self.collectionView.backgroundColor = .none
         self.collectionView.register(UINib(nibName: "LightCell", bundle: nil), forCellWithReuseIdentifier: "Shade.LightCell")
+        
+        let longPress = UILongPressGestureRecognizer(target: self, action: #selector(HomeScreenController.showControl))
+        self.collectionView.addGestureRecognizer(longPress)
+    }
+    
+    @objc func showControl(longPressGestureRecognizer: UILongPressGestureRecognizer) {
+        if longPressGestureRecognizer.state == UIGestureRecognizer.State.began {
+            let touchPoint = longPressGestureRecognizer.location(in: collectionView)
+            if let indexPath = collectionView.indexPathForRow(at: touchPoint) {
+                
+            }
+        }
     }
 }
 

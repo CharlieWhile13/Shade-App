@@ -21,6 +21,8 @@
 		53709A1625449F080098E7FF /* PairingController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53709A1525449F070098E7FF /* PairingController.swift */; };
 		5386D2312547169500696870 /* HueColourTranslator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5386D2302547169500696870 /* HueColourTranslator.swift */; };
 		5386D23425472C9000696870 /* NSNotification+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5386D23325472C9000696870 /* NSNotification+Extensions.swift */; };
+		5386D23C25475EBA00696870 /* ControlScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5386D23B25475EB900696870 /* ControlScreen.swift */; };
+		5386D2412547615200696870 /* FatUISlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5386D2402547615100696870 /* FatUISlider.swift */; };
 		53A813F5254506C10013F232 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53A813F4254506C00013F232 /* NetworkManager.swift */; };
 		53A813F9254519870013F232 /* BridgeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53A813F8254519870013F232 /* BridgeManager.swift */; };
 		53A8140E2545D29F0013F232 /* HomeScreenController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53A8140D2545D29F0013F232 /* HomeScreenController.swift */; };
@@ -44,6 +46,8 @@
 		53709A1525449F070098E7FF /* PairingController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PairingController.swift; sourceTree = "<group>"; };
 		5386D2302547169500696870 /* HueColourTranslator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HueColourTranslator.swift; sourceTree = "<group>"; };
 		5386D23325472C9000696870 /* NSNotification+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSNotification+Extensions.swift"; sourceTree = "<group>"; };
+		5386D23B25475EB900696870 /* ControlScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ControlScreen.swift; sourceTree = "<group>"; };
+		5386D2402547615100696870 /* FatUISlider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FatUISlider.swift; sourceTree = "<group>"; };
 		53A813F4254506C00013F232 /* NetworkManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 		53A813F8254519870013F232 /* BridgeManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BridgeManager.swift; sourceTree = "<group>"; };
 		53A8140D2545D29F0013F232 /* HomeScreenController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeScreenController.swift; sourceTree = "<group>"; };
@@ -96,6 +100,7 @@
 		534F12EF254467FD00B8E27A /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				5386D23F2547613500696870 /* Fat UI Slider */,
 				534F12F02544680700B8E27A /* DynamicColourView */,
 			);
 			path = Views;
@@ -148,6 +153,7 @@
 		53709A1125449DAA0098E7FF /* View Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				5386D23A25475E4400696870 /* Control Screen */,
 				53A8140C2545D2860013F232 /* Home Screen */,
 				53709A1325449E960098E7FF /* Pairing Controller */,
 			);
@@ -186,6 +192,22 @@
 				5386D2302547169500696870 /* HueColourTranslator.swift */,
 			);
 			path = "Hue Colour Translator";
+			sourceTree = "<group>";
+		};
+		5386D23A25475E4400696870 /* Control Screen */ = {
+			isa = PBXGroup;
+			children = (
+				5386D23B25475EB900696870 /* ControlScreen.swift */,
+			);
+			path = "Control Screen";
+			sourceTree = "<group>";
+		};
+		5386D23F2547613500696870 /* Fat UI Slider */ = {
+			isa = PBXGroup;
+			children = (
+				5386D2402547615100696870 /* FatUISlider.swift */,
+			);
+			path = "Fat UI Slider";
 			sourceTree = "<group>";
 		};
 		53A813F2254506830013F232 /* Backend */ = {
@@ -310,10 +332,12 @@
 				53FB6CD92545F7C9008264F5 /* LightManager.swift in Sources */,
 				534F12F825446B6A00B8E27A /* CAGradientLayer+Extensions.swift in Sources */,
 				53709A0125447BF10098E7FF /* LightCell.swift in Sources */,
+				5386D23C25475EBA00696870 /* ControlScreen.swift in Sources */,
 				53A813F5254506C10013F232 /* NetworkManager.swift in Sources */,
 				534F12DA2544641200B8E27A /* AppDelegate.swift in Sources */,
 				5386D2312547169500696870 /* HueColourTranslator.swift in Sources */,
 				534F12DC2544641200B8E27A /* SceneDelegate.swift in Sources */,
+				5386D2412547615200696870 /* FatUISlider.swift in Sources */,
 				53A8140E2545D29F0013F232 /* HomeScreenController.swift in Sources */,
 				534F12F22544683800B8E27A /* DynamicColourView.swift in Sources */,
 			);
