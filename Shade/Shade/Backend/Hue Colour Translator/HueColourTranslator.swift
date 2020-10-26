@@ -10,44 +10,22 @@ import UIKit
 class HueColourTranslator {
     static let shared = HueColourTranslator()
     
-    public func convertFromColour(_ colour: UIColor) -> (Float, Float) {
-        var red: CGFloat = 0
-        var green: CGFloat = 0
-        var blue: CGFloat = 0
-        var alpha: CGFloat = 0
+    public func convertFromColour(_ colour: UIColor) -> (Int, Int, Int) {
+        let hsba = colour.hsba
         
-        colour.getRed(&red, green: &green, blue: &blue, alpha: &alpha)
-        
-        if red > 0.04045 {
-            red = pow((red + 0.055) / (1.0 + 0.055), 2.4)
-        } else {
-            red = red / 12.92
-        }
-        
-        if green > 0.04045 {
-            green = pow((green + 0.055) / (1.0 + 0.055), 2.4)
-        } else {
-            green = green / 12.92
-        }
-        
-        if blue > 0.04045 {
-            blue = pow((blue + 0.055) / (1.0 + 0.55), 2.4)
-        } else {
-            blue = blue / 12.92
-        }
-        
-        let X: Float = Float(red * 0.664511 + green * 0.154324 + blue * 0.162028)
-        let Y: Float = Float(red * 0.283881 + green * 0.668433 + blue * 0.047685)
-        let Z: Float = Float(red * 0.000088 + green * 0.072310 + blue * 0.986039)
-        
-        let x: Float = X / (X + Y + Z)
-        let y: Float = Y / (X + Y + Z)
-        
-        return (x, y)
+        let hue = Int(hsba.h * 65535)
+        let sat = Int(hsba.s * 254)
+        let bri = Int(hsba.b * 254)
+  
+        return (hue, sat, bri)
     }
     
-    public func convertFromHue(_ hue: (Float, Float)) {
-        
+    public func convertFromHue(_ light: LightState!) -> UIColor {
+        let hue: CGFloat = CGFloat(CGFloat(light.hue!) / CGFloat(65535))
+        let sat: CGFloat = CGFloat(CGFloat(light.sat!) / CGFloat(254))
+  
+        let colour = UIColor(hue: hue, saturation: sat, brightness: 1.0, alpha: 1.0)
+        return colour
     }
     
 }

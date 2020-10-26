@@ -217,9 +217,6 @@
                         <outlet property="collectionView" destination="n1k-Yw-CJD" id="82y-ku-FfR"/>
                         <outlet property="dynamicColourView" destination="a7o-TI-Xwd" id="9nt-kp-Dtx"/>
                         <segue destination="aHl-qT-VHa" kind="show" identifier="Shade.ShowPairing" id="uSq-WP-Fcz"/>
-                        <segue destination="Cli-ZW-K1m" kind="popoverPresentation" identifier="Shade.ShowControl" id="fd3-Qn-1dw">
-                            <popoverArrowDirection key="popoverArrowDirection" up="YES" down="YES" left="YES" right="YES"/>
-                        </segue>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Dd6-51-w3z" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -231,11 +228,11 @@
             <objects>
                 <viewController id="Cli-ZW-K1m" customClass="ControlScreen" customModule="Shade" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="x3s-vp-Vh9">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="1046"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="1100"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Tig-SZ-w9x">
-                                <rect key="frame" x="0.0" y="0.0" width="414" height="1012"/>
+                                <rect key="frame" x="0.0" y="44" width="414" height="1022"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="kaD-tk-56V" userLabel="Content View">
                                         <rect key="frame" x="0.0" y="0.0" width="414" height="1000"/>

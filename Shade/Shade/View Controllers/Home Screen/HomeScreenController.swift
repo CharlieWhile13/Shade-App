@@ -61,10 +61,15 @@ class HomeScreenController: UIViewController {
     @objc func showControl(longPressGestureRecognizer: UILongPressGestureRecognizer) {
         if longPressGestureRecognizer.state == UIGestureRecognizer.State.began {
             let touchPoint = longPressGestureRecognizer.location(in: collectionView)
-            if let indexPath = collectionView.indexPathForRow(at: touchPoint) {
+            if let indexPath = collectionView.indexPathForItem(at: touchPoint) {
+                let picker = OWOUIColorPickerViewController()
+                picker.delegate = self
+                picker.index = indexPath.row
                 
+                self.present(picker, animated: true, completion: nil)
             }
         }
+
     }
 }
 
@@ -93,16 +98,17 @@ extension HomeScreenController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Shade.LightCell", for: indexPath) as! LightCell
         let light = LightManager.shared.lights[indexPath.row]
+        let state = light.state!
         
         var text = ""
         
         text = text + "\(light.name!) \n"
-        if light.state != nil {
-            let state = light.state!
-            text = text + "On: \(state.on!) \n XY: \(state.xy!) \n Reachable: \(state.reachable!) \n Bri: \(state.bri!)"
-        }
+        text = text + "On: \(state.on!) \n XY: \(state.xy!) \n Reachable: \(state.reachable!) \n Bri: \(state.bri!)"
+
+        let colour = HueColourTranslator.shared.convertFromHue(state)
         
         cell.label.text = text
+        cell.backgroundColor = colour
         
         return cell
     }
@@ -110,6 +116,24 @@ extension HomeScreenController: UICollectionViewDataSource {
     @objc func refreshCollectionView() {
         DispatchQueue.main.async {
             self.collectionView.reloadData()
+        }
+    }
+}
+
+extension HomeScreenController: UIColorPickerViewControllerDelegate {
+    //Called when the final colour has been picked
+    func colorPickerViewControllerDidFinish(_ viewController: UIColorPickerViewController) {
+        if viewController is OWOUIColorPickerViewController {
+            let funky = viewController as! OWOUIColorPickerViewController
+            print("Fun times \(funky.index), \(funky.selectedColor)")
+        }
+    }
+    
+    //  Called on every color selection done in the picker.
+    func colorPickerViewControllerDidSelectColor(_ viewController: UIColorPickerViewController) {
+        if viewController is OWOUIColorPickerViewController {
+            let funky = viewController as! OWOUIColorPickerViewController
+            print("Pog times \(funky.index), \(funky.selectedColor)")
         }
     }
 }
