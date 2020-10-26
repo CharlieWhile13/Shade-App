@@ -159,4 +159,12 @@ class LightManager {
         
         self.sendCommand(light, body, index)
     }
+    
+    public func setColour(_ light: Light, _ index: Int, _ colour: UIColor) {
+        let hueColours = colour.hueColours
+        let hue = hueColours.h; let sat = hueColours.s; let bri = hueColours.b
+        let body = "{\"on\":true, \"sat\":\(sat), \"bri\":\(bri), \"hue\":\(hue)}"
+        
+        self.sendCommand(light, body, index)
+    }
 }

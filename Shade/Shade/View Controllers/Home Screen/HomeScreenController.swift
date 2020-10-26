@@ -15,9 +15,7 @@ class HomeScreenController: UIViewController {
     override var prefersStatusBarHidden: Bool {
         return true
     }
-    
-    let dummyData = [[String : String]]()
-    
+        
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         if BridgeManager.shared.bridges.count == 0 {
@@ -55,6 +53,7 @@ class HomeScreenController: UIViewController {
         self.collectionView.register(UINib(nibName: "LightCell", bundle: nil), forCellWithReuseIdentifier: "Shade.LightCell")
         
         let longPress = UILongPressGestureRecognizer(target: self, action: #selector(HomeScreenController.showControl))
+        longPress.minimumPressDuration = 0.25
         self.collectionView.addGestureRecognizer(longPress)
     }
     
@@ -62,8 +61,13 @@ class HomeScreenController: UIViewController {
         if longPressGestureRecognizer.state == UIGestureRecognizer.State.began {
             let touchPoint = longPressGestureRecognizer.location(in: collectionView)
             if let indexPath = collectionView.indexPathForItem(at: touchPoint) {
+                let generator = UINotificationFeedbackGenerator()
+                generator.notificationOccurred(.success)
+                
                 let picker = OWOUIColorPickerViewController()
                 picker.delegate = self
+                picker.supportsAlpha = false
+                picker.selectedColor = HueColourTranslator.shared.convertFromHue(LightManager.shared.lights[indexPath.row].state!)
                 picker.index = indexPath.row
                 
                 self.present(picker, animated: true, completion: nil)
@@ -125,15 +129,7 @@ extension HomeScreenController: UIColorPickerViewControllerDelegate {
     func colorPickerViewControllerDidFinish(_ viewController: UIColorPickerViewController) {
         if viewController is OWOUIColorPickerViewController {
             let funky = viewController as! OWOUIColorPickerViewController
-            print("Fun times \(funky.index), \(funky.selectedColor)")
-        }
-    }
-    
-    //  Called on every color selection done in the picker.
-    func colorPickerViewControllerDidSelectColor(_ viewController: UIColorPickerViewController) {
-        if viewController is OWOUIColorPickerViewController {
-            let funky = viewController as! OWOUIColorPickerViewController
-            print("Pog times \(funky.index), \(funky.selectedColor)")
+            LightManager.shared.setColour(LightManager.shared.lights[funky.index], funky.index, viewController.selectedColor)
         }
     }
 }

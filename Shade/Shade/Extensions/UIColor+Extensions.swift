@@ -13,4 +13,14 @@ extension UIColor {
         self.getHue(&h, saturation: &s, brightness: &b, alpha: &a)
         return (h: h, s: s, b: b, a: a)
     }
+    
+    var hueColours: (h: Int, s: Int, b: Int) {
+        let hsba = self.hsba
+        
+        let hue = Int(hsba.h * 65535)
+        let sat = Int(hsba.s * 254)
+        let bri = Int(hsba.b * 254)
+  
+        return (hue, sat, bri)
+    }
  }
