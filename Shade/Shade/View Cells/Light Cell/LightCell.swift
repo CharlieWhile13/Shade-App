@@ -9,6 +9,8 @@ import UIKit
 
 class LightCell: UICollectionViewCell {
 
+    @IBOutlet weak var label: UILabel!
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code

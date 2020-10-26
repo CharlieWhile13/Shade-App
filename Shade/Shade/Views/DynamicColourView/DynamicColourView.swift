@@ -41,7 +41,10 @@ class DynamicColourView: UIView {
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        self.gradientLayer.frame = self.bounds
+        
+        if self.gradientLayer != nil {
+            self.gradientLayer.frame = self.bounds
+        }
     }
     
     public func setup() {

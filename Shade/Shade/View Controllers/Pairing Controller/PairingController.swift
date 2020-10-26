@@ -64,15 +64,19 @@ class PairingController: UIViewController {
         self.setup()
     }
     
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.setNavigationBarHidden(true, animated: animated)
+        tabBarController?.tabBar.isHidden = true
     }
 
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         navigationController?.setNavigationBarHidden(false, animated: animated)
+        tabBarController?.tabBar.isHidden = false
     }
+
     
     func setup() {
         self.dynamicColourView.setup()
@@ -293,6 +297,11 @@ class PairingController: UIViewController {
 
     @IBAction func continueButton(_ sender: Any) {
         self.timer?.invalidate()
+        
+        DispatchQueue.global(qos: .userInitiated).async {
+            LightManager.shared.grabLightsFromBridge()
+        }
+        
         self.performSegue(withIdentifier: "Shade.ReturnFromPairing", sender: self)
     }
     

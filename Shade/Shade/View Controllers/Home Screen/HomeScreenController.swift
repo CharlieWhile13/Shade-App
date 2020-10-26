@@ -6,15 +6,17 @@
 //
 
 import UIKit
-import MediaPlayer
 
 class HomeScreenController: UIViewController {
-    @IBOutlet weak var artworkView: UIImageView!
-    
+ 
+    @IBOutlet weak var collectionView: UICollectionView!
+    @IBOutlet weak var dynamicColourView: DynamicColourView!
     
     override var prefersStatusBarHidden: Bool {
         return true
     }
+    
+    let dummyData = [[String : String]]()
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -22,23 +24,80 @@ class HomeScreenController: UIViewController {
             self.performSegue(withIdentifier: "Shade.ShowPairing", sender: nil)
             return
         }
+        
+        self.dynamicColourView.setup()
+    }
+    
+    private func clearDefaults() {
+        let domain = Bundle.main.bundleIdentifier!
+        UserDefaults.standard.removePersistentDomain(forName: domain)
+        UserDefaults.standard.synchronize()
     }
     
     @IBAction func unwind( _ seg: UIStoryboardSegue) {
     }
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
         
-    
+        //self.clearDefaults()
+        self.setup()
     }
     
-    
-    private func getArtwork() -> UIImage {
-            let mediaItem = MPMediaItem()
-            return mediaItem.artwork?.image(at: CGSize(width: 150, height: 150)) ?? UIImage(named: "uwu")! //Fallback for if no music is playing
-        }
-    
+    private func setup() {
+        NotificationCenter.default.addObserver(self, selector: #selector(refreshCollectionView), name: .LightRefactor, object: nil)
+        
+        self.collectionView.delegate = self
+        self.collectionView.dataSource = self
+        self.collectionView.showsVerticalScrollIndicator = false
+        self.collectionView.showsHorizontalScrollIndicator = false
+        self.collectionView.backgroundColor = .none
+        self.collectionView.register(UINib(nibName: "LightCell", bundle: nil), forCellWithReuseIdentifier: "Shade.LightCell")
+    }
 }
 
+extension HomeScreenController: UICollectionViewDelegateFlowLayout {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+  
+        let padding: CGFloat = 15
+        let collectionViewSize = collectionView.frame.size.width - padding
+
+        return CGSize(width: collectionViewSize/2, height: collectionViewSize/2)
+    }
+}
+
+extension HomeScreenController: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        LightManager.shared.toggle(LightManager.shared.lights[indexPath.row], indexPath.row)
+    }
+}
+
+extension HomeScreenController: UICollectionViewDataSource {
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return LightManager.shared.lights.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Shade.LightCell", for: indexPath) as! LightCell
+        let light = LightManager.shared.lights[indexPath.row]
+        
+        var text = ""
+        
+        text = text + "\(light.name!) \n"
+        if light.state != nil {
+            let state = light.state!
+            text = text + "On: \(state.on!) \n XY: \(state.xy!) \n Reachable: \(state.reachable!) \n Bri: \(state.bri!)"
+        }
+        
+        cell.label.text = text
+        
+        return cell
+    }
+    
+    @objc func refreshCollectionView() {
+        DispatchQueue.main.async {
+            self.collectionView.reloadData()
+        }
+    }
+}
