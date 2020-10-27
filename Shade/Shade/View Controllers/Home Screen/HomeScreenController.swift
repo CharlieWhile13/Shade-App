@@ -47,6 +47,7 @@ class HomeScreenController: UIViewController {
     
     private func setup() {
         NotificationCenter.default.addObserver(self, selector: #selector(refreshCollectionView), name: .LightRefactor, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(hidePopup), name: .HidePopup, object: nil)
         
         self.collectionView.delegate = self
         self.collectionView.dataSource = self
@@ -83,35 +84,40 @@ class HomeScreenController: UIViewController {
     }
     
     @objc func hidePopup() {
-        let screenSize = UIScreen.main.bounds.size
-          UIView.animate(withDuration: 0.5,
+        let deadBounds = CGRect(x: 0, y: self.view.frame.height, width: self.view.frame.width, height: self.view.frame.height)
+        
+        UIView.animate(withDuration: 1.0,
                          delay: 0, usingSpringWithDamping: 1.0,
                          initialSpringVelocity: 1.0,
                          options: .curveEaseInOut, animations: {
             self.containerView.alpha = 0
-          }, completion: nil)
+            self.popupView.frame = deadBounds
+                         }, completion: { (value: Bool) in
+                            self.popupView.removeFromSuperview()
+                            self.containerView.removeFromSuperview()
+          })
     }
     
     private func showPopup(_ light: Light) {
         containerView.backgroundColor = UIColor.black.withAlphaComponent(0.9)
         containerView.frame = self.view.frame
+        containerView.alpha = 0
         self.view.addSubview(containerView)
         
-        let tapGesture = UITapGestureRecognizer(target: self,
-                            action: #selector(hidePopup))
-        containerView.addGestureRecognizer(tapGesture)
-        
+        let deadBounds = CGRect(x: 0, y: self.view.frame.height, width: self.view.frame.width, height: self.view.frame.height)
+                
+        self.popupView.lightID = light.id!
+        self.popupView.frame = deadBounds
+        self.view.addSubview(popupView)
+
         containerView.alpha = 0
-          UIView.animate(withDuration: 0.5,
+        UIView.animate(withDuration: 0.5,
                          delay: 0, usingSpringWithDamping: 1.0,
                          initialSpringVelocity: 1.0,
                          options: .curveEaseInOut, animations: {
             self.containerView.alpha = 0.8
+            self.popupView.frame = self.view.frame
           }, completion: nil)
-        
-        self.popupView.frame = self.view.frame
-        self.popupView.lightID = light.id!
-        self.view.addSubview(popupView)
     }
 }
 
@@ -158,16 +164,6 @@ extension HomeScreenController: UICollectionViewDataSource {
     @objc func refreshCollectionView() {
         DispatchQueue.main.async {
             self.collectionView.reloadData()
-        }
-    }
-}
-
-extension HomeScreenController: UIColorPickerViewControllerDelegate {
-    //Called when the final colour has been picked
-    func colorPickerViewControllerDidFinish(_ viewController: UIColorPickerViewController) {
-        if viewController is OWOUIColorPickerViewController {
-            let funky = viewController as! OWOUIColorPickerViewController
-            LightManager.shared.setColour(LightManager.shared.lights[funky.index], viewController.selectedColor)
         }
     }
 }

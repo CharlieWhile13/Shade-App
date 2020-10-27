@@ -9,4 +9,5 @@ import Foundation
 
 extension NSNotification.Name {
     static let LightRefactor = Notification.Name("Shade.LightRefactor")
+    static let HidePopup = Notification.Name("Shade.HidePopup")
 }

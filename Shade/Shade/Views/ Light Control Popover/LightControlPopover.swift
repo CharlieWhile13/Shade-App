@@ -16,6 +16,7 @@ class LightControlPopover: UIView {
     @IBOutlet weak var brightnessSlider: BrightnessSlider!
     @IBOutlet weak var colourPicker: UIControl!
     @IBOutlet weak var blurView: UIView!
+    @IBOutlet weak var background: UIControl!
     
     var lightID: String!
     var light: Light!
@@ -46,6 +47,11 @@ class LightControlPopover: UIView {
         
         self.powerToggle.addTarget(self, action: #selector(toggleLight), for: .touchUpInside)
         NotificationCenter.default.addObserver(self, selector: #selector(parseState), name: .LightRefactor, object: nil)
+        self.background.addTarget(self, action: #selector(hideView), for: .touchUpInside)
+    }
+    
+    @objc func hideView() {
+        NotificationCenter.default.post(name: .HidePopup, object: nil)
     }
     
     @objc func toggleLight() {
@@ -84,5 +90,15 @@ class LightControlPopover: UIView {
     @IBAction func brightnessSlider(_ sender: Any) {
         self.timer?.invalidate()
         self.timer = Timer.scheduledTimer(timeInterval: 0.05, target: self, selector: #selector(self.setBrightness), userInfo: nil, repeats: false)
+    }
+}
+
+extension LightControlPopover: UIColorPickerViewControllerDelegate {
+    //Called when the final colour has been picked
+    func colorPickerViewControllerDidFinish(_ viewController: UIColorPickerViewController) {
+        if viewController is OWOUIColorPickerViewController {
+            let funky = viewController as! OWOUIColorPickerViewController
+            LightManager.shared.setColour(LightManager.shared.lights[funky.index], viewController.selectedColor)
+        }
     }
 }
