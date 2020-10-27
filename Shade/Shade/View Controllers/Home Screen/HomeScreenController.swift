@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Network
 
 class HomeScreenController: UIViewController {
  
@@ -29,6 +30,11 @@ class HomeScreenController: UIViewController {
         self.dynamicColourView.setup()
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        self.viewWillDisappear(animated)
+        self.hidePopup()
+    }
+    
     private func clearDefaults() {
         let domain = Bundle.main.bundleIdentifier!
         UserDefaults.standard.removePersistentDomain(forName: domain)
@@ -45,9 +51,27 @@ class HomeScreenController: UIViewController {
         self.setup()
     }
     
+    func setupNetworkChecking() {
+        let monitor = NWPathMonitor()
+        monitor.pathUpdateHandler = { path in
+            self.isOnNetwork(path)
+        }
+        let queue = DispatchQueue(label: "NetworkMonitor")
+        monitor.start(queue: queue)
+    }
+    
+    func isOnNetwork(_ path: NWPath) {
+        DispatchQueue.main.async {
+            if path.usesInterfaceType(.wifi) || path.usesInterfaceType(.wiredEthernet) {
+                LightManager.shared.grabLightsFromBridge()
+            }
+        }
+    }
+    
     private func setup() {
         NotificationCenter.default.addObserver(self, selector: #selector(refreshCollectionView), name: .LightRefactor, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(hidePopup), name: .HidePopup, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(showColourPicker(_:)), name: .ShowColourPicker, object: nil)
         
         self.collectionView.delegate = self
         self.collectionView.dataSource = self
@@ -59,6 +83,9 @@ class HomeScreenController: UIViewController {
         let longPress = UILongPressGestureRecognizer(target: self, action: #selector(HomeScreenController.showControl))
         longPress.minimumPressDuration = 0.25
         self.collectionView.addGestureRecognizer(longPress)
+        
+        self.setupNetworkChecking()
+    
     }
     
     @objc func showControl(longPressGestureRecognizer: UILongPressGestureRecognizer) {
@@ -67,17 +94,7 @@ class HomeScreenController: UIViewController {
             if let indexPath = collectionView.indexPathForItem(at: touchPoint) {
                 let generator = UINotificationFeedbackGenerator()
                 generator.notificationOccurred(.success)
-                
-                /*
-            
-                let picker = OWOUIColorPickerViewController()
-                picker.delegate = self
-                picker.supportsAlpha = false
-                picker.selectedColor = HueColourTranslator.shared.convertFromHue(LightManager.shared.lights[indexPath.row].state!)
-                picker.index = indexPath.row
-                
-                self.present(picker, animated: true, completion: nil)
- */
+         
                 self.showPopup(LightManager.shared.lights[indexPath.row])
             }
         }
@@ -90,34 +107,46 @@ class HomeScreenController: UIViewController {
                          delay: 0, usingSpringWithDamping: 1.0,
                          initialSpringVelocity: 1.0,
                          options: .curveEaseInOut, animations: {
-            self.containerView.alpha = 0
-            self.popupView.frame = deadBounds
+                            self.containerView.alpha = 0
+                            self.popupView.frame = deadBounds
                          }, completion: { (value: Bool) in
                             self.popupView.removeFromSuperview()
                             self.containerView.removeFromSuperview()
           })
     }
-    
+
     private func showPopup(_ light: Light) {
-        containerView.backgroundColor = UIColor.black.withAlphaComponent(0.9)
-        containerView.frame = self.view.frame
-        containerView.alpha = 0
+        self.containerView.backgroundColor = UIColor.black.withAlphaComponent(0.9)
+        self.containerView.frame = self.view.frame
+        self.containerView.alpha = 0
         self.view.addSubview(containerView)
-        
+
         let deadBounds = CGRect(x: 0, y: self.view.frame.height, width: self.view.frame.width, height: self.view.frame.height)
-                
+                    
         self.popupView.lightID = light.id!
         self.popupView.frame = deadBounds
         self.view.addSubview(popupView)
 
-        containerView.alpha = 0
         UIView.animate(withDuration: 0.5,
                          delay: 0, usingSpringWithDamping: 1.0,
                          initialSpringVelocity: 1.0,
                          options: .curveEaseInOut, animations: {
-            self.containerView.alpha = 0.8
-            self.popupView.frame = self.view.frame
+                            self.containerView.alpha = 0.8
+                            self.popupView.frame = self.view.bounds
           }, completion: nil)
+        
+    }
+    
+    @objc func showColourPicker(_ notification: NSNotification) {
+        let index = notification.userInfo!["index"] as! Int
+        let light = LightManager.shared.lights[index]
+        
+        let picker = OWOUIColorPickerViewController()
+        picker.delegate = self
+        picker.supportsAlpha = false
+        picker.selectedColor = HueColourTranslator.shared.convertFromHue(light.state!)
+        picker.index = index
+        self.present(picker, animated: true, completion: nil)
     }
 }
 
@@ -158,12 +187,37 @@ extension HomeScreenController: UICollectionViewDataSource {
         cell.label.text = text
         cell.backgroundColor = colour
         
+        cell.label.textColor = cell.decideTextColour(colour)
+        
         return cell
     }
     
     @objc func refreshCollectionView() {
+        
+        self.dynamicColourView.colours.removeAll()
+        
+        for light in LightManager.shared.lights {
+            self.dynamicColourView.colours.append(HueColourTranslator.shared.convertFromHue(light.state!).cgColor)
+        }
+        
+        if self.dynamicColourView.colours.count == 1 {
+            self.dynamicColourView.colours.append(UIColor.white.cgColor)
+        }
+    
+        self.dynamicColourView.enableRandomColour = false
+                
         DispatchQueue.main.async {
             self.collectionView.reloadData()
+        }
+    }
+}
+
+
+extension HomeScreenController: UIColorPickerViewControllerDelegate {
+    func colorPickerViewControllerDidFinish(_ viewController: UIColorPickerViewController) {
+        if viewController is OWOUIColorPickerViewController {
+            let funky = viewController as! OWOUIColorPickerViewController
+            LightManager.shared.setColour(LightManager.shared.lights[funky.index], viewController.selectedColor)
         }
     }
 }

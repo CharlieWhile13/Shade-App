@@ -12,9 +12,10 @@ import UIKit
 
 class DynamicColourView: UIView {
     
-    @IBInspectable private var enableRandomColour: Bool = false
+    @IBInspectable public var enableRandomColour: Bool = false
     
     var gradientLayer: CAGradientLayer!
+    var colours = [CGColor]()
     
     private func randomColour() -> UIColor {
         let red = CGFloat((arc4random() % 256)) / 255.0
@@ -49,17 +50,22 @@ class DynamicColourView: UIView {
     
     public func setup() {
         self.gradientLayer = CAGradientLayer(start: .topLeft, end: .bottomRight, colors: [randomColour().cgColor, randomColour().cgColor], type: .radial)
+        
         self.gradientLayer.frame = self.bounds
         self.layer.addSublayer(self.gradientLayer)
         
-        if enableRandomColour {
-            self.randomColours()
-        }
+        self.randomColours()
     }
 
     private func randomColours() {
-        let toColours = [randomColour().cgColor, randomColour().cgColor]
-      
+        var toColours = [CGColor]()
+        
+        if self.enableRandomColour || colours.count == 0 {
+            toColours = [randomColour().cgColor, randomColour().cgColor, randomColour().cgColor]
+        } else {
+            toColours = self.colours
+        }
+        
         let colourAnimation = CABasicAnimation(keyPath: "colors")
         colourAnimation.fromValue = self.gradientLayer.colors
         colourAnimation.toValue = toColours
@@ -75,12 +81,10 @@ class DynamicColourView: UIView {
 extension DynamicColourView: CAAnimationDelegate {
     func animationDidStop(_ anim: CAAnimation, finished flag: Bool) {
         if let animation = anim as? CABasicAnimation {
-            
             switch animation.keyPath {
                 case "colors" : self.randomColours()
                 default : return
             }
-
         }
     }
 }

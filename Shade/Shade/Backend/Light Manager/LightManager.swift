@@ -59,11 +59,7 @@ class LightManager {
     static let shared = LightManager()
     var lights = [Light]()
     var timer: Timer?
-    
-    init() {
-        self.grabLightsFromBridge()
-    }
-    
+  
     @objc public func grabLightsFromBridge() {
         for bridge in BridgeManager.shared.bridges {
             if let url = URL(string: "http://\(bridge.ip!)/api/\(bridge.username!)/lights") {
@@ -178,8 +174,8 @@ class LightManager {
     
     public func setColour(_ light: Light, _ colour: UIColor) {
         let hueColours = colour.hueColours
-        let hue = hueColours.h; let sat = hueColours.s; let bri = hueColours.b
-        let body = "{\"on\":true, \"sat\":\(sat), \"bri\":\(bri), \"hue\":\(hue)}"
+        let hue = hueColours.h; let sat = hueColours.s
+        let body = "{\"on\":true, \"sat\":\(sat), \"hue\":\(hue)}"
         
         let index = self.getIndex(light.id!)
         self.sendCommand(light, body, index, .colour)

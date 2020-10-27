@@ -50,6 +50,8 @@ class PairingController: UIViewController {
     @IBOutlet weak var retryButton: UIButton!
     @IBOutlet weak var dynamicColourView: DynamicColourView!
     
+    let monitor = NWPathMonitor()
+    
     var discoveredBridges = [DiscoveredBridge]()
     var timer: Timer?
     
@@ -75,6 +77,8 @@ class PairingController: UIViewController {
         super.viewWillDisappear(animated)
         navigationController?.setNavigationBarHidden(false, animated: animated)
         tabBarController?.tabBar.isHidden = false
+        
+        monitor.cancel()
     }
 
     
@@ -115,7 +119,6 @@ class PairingController: UIViewController {
     }
     
     func setupNetworkChecking() {
-        let monitor = NWPathMonitor()
         monitor.pathUpdateHandler = { path in
             self.isOnNetwork(path)
         }

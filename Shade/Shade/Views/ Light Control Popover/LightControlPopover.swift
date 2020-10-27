@@ -36,7 +36,7 @@ class LightControlPopover: UIView {
     
     func setup() {
         if !UIAccessibility.isReduceTransparencyEnabled {
-            let blurEffect = UIBlurEffect(style: .dark)
+            let blurEffect = UIBlurEffect(style: .systemMaterial)
             let blurEffectView = UIVisualEffectView(effect: blurEffect)
 
             blurEffectView.frame = self.bounds
@@ -45,9 +45,13 @@ class LightControlPopover: UIView {
             self.blurView.addSubview(blurEffectView)
         }
         
+        self.blurView.alpha = 0.5
+        
         self.powerToggle.addTarget(self, action: #selector(toggleLight), for: .touchUpInside)
         NotificationCenter.default.addObserver(self, selector: #selector(parseState), name: .LightRefactor, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.setBrightness), name: .BrightnessChanged, object: nil)
         self.background.addTarget(self, action: #selector(hideView), for: .touchUpInside)
+        self.colourPicker.addTarget(self, action: #selector(setColour), for: .touchUpInside)
     }
     
     @objc func hideView() {
@@ -65,40 +69,38 @@ class LightControlPopover: UIView {
         LightManager.shared.setBrightness(self.light, Int(inty))
     }
     
+    @objc func setColour() {
+        let index = LightManager.shared.getIndex(self.light.id!)
+        let data: [String : Int] = ["index" : index]
+        NotificationCenter.default.post(name: .ShowColourPicker, object: nil, userInfo: data)
+    }
+    
     @objc func parseState() {
         if self.lightID == nil { return }
-        self.light = LightManager.shared.lights[LightManager.shared.getIndex(self.lightID)]
-        let state = self.light!.state!
-        let colour = HueColourTranslator.shared.convertFromHue(state)
-        
-        if !state.on! {
-            self.imageView.image = UIImage(systemName: "lightbulb.slash.fill", withConfiguration: UIImage.SymbolConfiguration(weight: .regular))?.withTintColor(.systemGray5, renderingMode: .alwaysOriginal)
-            self.powerImage.image = UIImage(systemName: "power", withConfiguration: UIImage.SymbolConfiguration(weight: .regular))?.withTintColor(.systemGray5, renderingMode: .alwaysOriginal)
-        } else {
-            self.imageView.image = UIImage(systemName: "lightbulb.fill", withConfiguration: UIImage.SymbolConfiguration(weight: .regular))?.withTintColor(colour, renderingMode: .alwaysOriginal)
-            self.powerImage.image = UIImage(systemName: "power", withConfiguration: UIImage.SymbolConfiguration(weight: .regular))?.withTintColor(colour, renderingMode: .alwaysOriginal)
+        DispatchQueue.main.async {
+            self.light = LightManager.shared.lights[LightManager.shared.getIndex(self.lightID)]
+            let state = self.light!.state!
+            let colour = HueColourTranslator.shared.convertFromHue(state)
+            
+            if !state.on! {
+                self.imageView.image = UIImage(systemName: "lightbulb.slash.fill", withConfiguration: UIImage.SymbolConfiguration(weight: .regular))?.withTintColor(.lightGray, renderingMode: .alwaysOriginal)
+                self.powerImage.image = UIImage(systemName: "power", withConfiguration: UIImage.SymbolConfiguration(weight: .regular))?.withTintColor(.lightGray, renderingMode: .alwaysOriginal)
+            } else {
+                self.imageView.image = UIImage(systemName: "lightbulb.fill", withConfiguration: UIImage.SymbolConfiguration(weight: .regular))?.withTintColor(colour, renderingMode: .alwaysOriginal)
+                self.powerImage.image = UIImage(systemName: "power", withConfiguration: UIImage.SymbolConfiguration(weight: .regular))?.withTintColor(colour, renderingMode: .alwaysOriginal)
+            }
+            
+            self.brightnessSlider.value = Float(state.bri!) / 254.0
+            self.brightnessSlider.minimumTrackTintColor = colour
+            self.brightnessSlider.thumbTintColor = colour
+            
+            self.colourPicker.backgroundColor = colour
+            self.lightLabel.text = self.light?.name!
         }
-        
-        self.brightnessSlider.value = Float(state.bri!) / 254.0
-        self.brightnessSlider.minimumTrackTintColor = colour
-        self.brightnessSlider.thumbTintColor = colour
-        
-        self.colourPicker.backgroundColor = colour
-        self.lightLabel.text = self.light?.name!
     }
     
     @IBAction func brightnessSlider(_ sender: Any) {
         self.timer?.invalidate()
         self.timer = Timer.scheduledTimer(timeInterval: 0.05, target: self, selector: #selector(self.setBrightness), userInfo: nil, repeats: false)
-    }
-}
-
-extension LightControlPopover: UIColorPickerViewControllerDelegate {
-    //Called when the final colour has been picked
-    func colorPickerViewControllerDidFinish(_ viewController: UIColorPickerViewController) {
-        if viewController is OWOUIColorPickerViewController {
-            let funky = viewController as! OWOUIColorPickerViewController
-            LightManager.shared.setColour(LightManager.shared.lights[funky.index], viewController.selectedColor)
-        }
     }
 }

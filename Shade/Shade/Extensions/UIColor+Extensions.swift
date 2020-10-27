@@ -14,13 +14,12 @@ extension UIColor {
         return (h: h, s: s, b: b, a: a)
     }
     
-    var hueColours: (h: Int, s: Int, b: Int) {
+    var hueColours: (h: Int, s: Int) {
         let hsba = self.hsba
         
         let hue = Int(hsba.h * 65535)
         let sat = Int(hsba.s * 254)
-        let bri = Int(hsba.b * 254)
   
-        return (hue, sat, bri)
+        return (hue, sat)
     }
  }
