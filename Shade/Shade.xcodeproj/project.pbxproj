@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5310CE4A2548BD1200CEC609 /* FirstTimeView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5310CE492548BD1200CEC609 /* FirstTimeView.xib */; };
+		5310CE4D2548C03100CEC609 /* FirstTimeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5310CE4C2548C03100CEC609 /* FirstTimeView.swift */; };
 		532F21A8254850850061C05A /* UIView+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 532F21A7254850850061C05A /* UIView+Extensions.swift */; };
 		534F12DA2544641200B8E27A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 534F12D92544641200B8E27A /* AppDelegate.swift */; };
 		534F12DC2544641200B8E27A /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 534F12DB2544641200B8E27A /* SceneDelegate.swift */; };
@@ -22,7 +24,6 @@
 		53709A1625449F080098E7FF /* PairingController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53709A1525449F070098E7FF /* PairingController.swift */; };
 		5386D2312547169500696870 /* HueColourTranslator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5386D2302547169500696870 /* HueColourTranslator.swift */; };
 		5386D23425472C9000696870 /* NSNotification+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5386D23325472C9000696870 /* NSNotification+Extensions.swift */; };
-		5386D23C25475EBA00696870 /* ControlScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5386D23B25475EB900696870 /* ControlScreen.swift */; };
 		5386D2412547615200696870 /* BrightnessSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5386D2402547615100696870 /* BrightnessSlider.swift */; };
 		5386D2462547842F00696870 /* UIColor+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5386D2452547842E00696870 /* UIColor+Extensions.swift */; };
 		5386D24B25478D4600696870 /* OWOUIColorPickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5386D24A25478D4500696870 /* OWOUIColorPickerViewController.swift */; };
@@ -35,6 +36,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		5310CE492548BD1200CEC609 /* FirstTimeView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FirstTimeView.xib; sourceTree = "<group>"; };
+		5310CE4C2548C03100CEC609 /* FirstTimeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstTimeView.swift; sourceTree = "<group>"; };
 		532F21A7254850850061C05A /* UIView+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Extensions.swift"; sourceTree = "<group>"; };
 		534F12D62544641200B8E27A /* Shade.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Shade.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		534F12D92544641200B8E27A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -52,7 +55,6 @@
 		53709A1525449F070098E7FF /* PairingController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PairingController.swift; sourceTree = "<group>"; };
 		5386D2302547169500696870 /* HueColourTranslator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HueColourTranslator.swift; sourceTree = "<group>"; };
 		5386D23325472C9000696870 /* NSNotification+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSNotification+Extensions.swift"; sourceTree = "<group>"; };
-		5386D23B25475EB900696870 /* ControlScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ControlScreen.swift; sourceTree = "<group>"; };
 		5386D2402547615100696870 /* BrightnessSlider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrightnessSlider.swift; sourceTree = "<group>"; };
 		5386D2452547842E00696870 /* UIColor+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Extensions.swift"; sourceTree = "<group>"; };
 		5386D24A25478D4500696870 /* OWOUIColorPickerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OWOUIColorPickerViewController.swift; sourceTree = "<group>"; };
@@ -75,6 +77,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		5310CE482548BCEA00CEC609 /* First Time */ = {
+			isa = PBXGroup;
+			children = (
+				5310CE492548BD1200CEC609 /* FirstTimeView.xib */,
+				5310CE4C2548C03100CEC609 /* FirstTimeView.swift */,
+			);
+			path = "First Time";
+			sourceTree = "<group>";
+		};
 		534F12CD2544641100B8E27A = {
 			isa = PBXGroup;
 			children = (
@@ -110,6 +121,7 @@
 		534F12EF254467FD00B8E27A /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				5310CE482548BCEA00CEC609 /* First Time */,
 				53956A04254797F7003F6F0E /*  Light Control Popover */,
 				5386D24925478D1200696870 /* OWOUIColorPickerViewController */,
 				5386D23F2547613500696870 /* Brightness Slider */,
@@ -167,7 +179,6 @@
 		53709A1125449DAA0098E7FF /* View Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				5386D23A25475E4400696870 /* Control Screen */,
 				53A8140C2545D2860013F232 /* Home Screen */,
 				53709A1325449E960098E7FF /* Pairing Controller */,
 			);
@@ -206,14 +217,6 @@
 				5386D2302547169500696870 /* HueColourTranslator.swift */,
 			);
 			path = "Hue Colour Translator";
-			sourceTree = "<group>";
-		};
-		5386D23A25475E4400696870 /* Control Screen */ = {
-			isa = PBXGroup;
-			children = (
-				5386D23B25475EB900696870 /* ControlScreen.swift */,
-			);
-			path = "Control Screen";
 			sourceTree = "<group>";
 		};
 		5386D23F2547613500696870 /* Brightness Slider */ = {
@@ -341,6 +344,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5310CE4A2548BD1200CEC609 /* FirstTimeView.xib in Resources */,
 				53709A0F25449B6D0098E7FF /* BridgeCell.xib in Resources */,
 				534F12E62544642100B8E27A /* LaunchScreen.storyboard in Resources */,
 				534F12E32544642100B8E27A /* Assets.xcassets in Resources */,
@@ -365,7 +369,6 @@
 				53FB6CD92545F7C9008264F5 /* LightManager.swift in Sources */,
 				534F12F825446B6A00B8E27A /* CAGradientLayer+Extensions.swift in Sources */,
 				53709A0125447BF10098E7FF /* LightCell.swift in Sources */,
-				5386D23C25475EBA00696870 /* ControlScreen.swift in Sources */,
 				53A813F5254506C10013F232 /* NetworkManager.swift in Sources */,
 				534F12DA2544641200B8E27A /* AppDelegate.swift in Sources */,
 				5386D2312547169500696870 /* HueColourTranslator.swift in Sources */,
@@ -373,6 +376,7 @@
 				5386D2462547842F00696870 /* UIColor+Extensions.swift in Sources */,
 				5386D24B25478D4600696870 /* OWOUIColorPickerViewController.swift in Sources */,
 				534F12DC2544641200B8E27A /* SceneDelegate.swift in Sources */,
+				5310CE4D2548C03100CEC609 /* FirstTimeView.swift in Sources */,
 				5386D2412547615200696870 /* BrightnessSlider.swift in Sources */,
 				53A8140E2545D29F0013F232 /* HomeScreenController.swift in Sources */,
 				534F12F22544683800B8E27A /* DynamicColourView.swift in Sources */,

@@ -9,12 +9,15 @@ import UIKit
 import Network
 
 class HomeScreenController: UIViewController {
+    
+    let welcomeText = "Tap on a light to toggle it. Hold a light to change brightness and colour!"
  
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var dynamicColourView: DynamicColourView!
     
     var containerView = UIView()
     var popupView: LightControlPopover = .fromNib()
+    var welcomeView: FirstTimeView = .fromNib()
     
     override var prefersStatusBarHidden: Bool {
         return true
@@ -27,11 +30,16 @@ class HomeScreenController: UIViewController {
             return
         }
         
+        if !UserDefaults.standard.bool(forKey: "Shade.HomeWelcome") {
+            self.presentWelcomeView()
+        }
+        
         self.dynamicColourView.setup()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
-        self.viewWillDisappear(animated)
+        super.viewWillDisappear(animated)
+        
         self.hidePopup()
     }
     
@@ -72,6 +80,7 @@ class HomeScreenController: UIViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(refreshCollectionView), name: .LightRefactor, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(hidePopup), name: .HidePopup, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(showColourPicker(_:)), name: .ShowColourPicker, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.hideWelcomeView), name: .HideHomeWelcome, object: nil)
         
         self.collectionView.delegate = self
         self.collectionView.dataSource = self
@@ -147,6 +156,41 @@ class HomeScreenController: UIViewController {
         picker.selectedColor = HueColourTranslator.shared.convertFromHue(light.state!)
         picker.index = index
         self.present(picker, animated: true, completion: nil)
+    }
+    
+    @objc func hideWelcomeView() {
+        UserDefaults.standard.set(true, forKey: "Shade.HomeWelcome")
+        UIView.animate(withDuration: 1.0,
+                         delay: 0, usingSpringWithDamping: 1.0,
+                         initialSpringVelocity: 1.0,
+                         options: .curveEaseInOut, animations: {
+                            self.welcomeView.alpha = 0
+                            self.containerView.alpha = 0
+                         }, completion: { (value: Bool) in
+                            self.welcomeView.removeFromSuperview()
+                            self.containerView.removeFromSuperview()
+          })
+    }
+    
+    private func presentWelcomeView() {
+        self.containerView.backgroundColor = UIColor.black.withAlphaComponent(0.95)
+        self.containerView.frame = self.view.frame
+        self.containerView.alpha = 0
+        self.view.addSubview(containerView)
+        
+        self.welcomeView.text.text = self.welcomeText
+        self.welcomeView.alpha = 0.0
+        self.welcomeView.frame = self.view.bounds
+        self.welcomeView.notification = .HideHomeWelcome
+        self.view.addSubview(welcomeView)
+        
+        UIView.animate(withDuration: 0.5,
+                         delay: 0, usingSpringWithDamping: 1.0,
+                         initialSpringVelocity: 1.0,
+                         options: .curveEaseInOut, animations: {
+                            self.welcomeView.alpha = 1.0
+                            self.containerView.alpha = 1.0
+          }, completion: nil)
     }
 }
 

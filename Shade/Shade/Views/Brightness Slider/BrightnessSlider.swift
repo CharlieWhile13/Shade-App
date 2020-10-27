@@ -11,7 +11,7 @@ class BrightnessSlider: UISlider {
     
     override func trackRect(forBounds bounds: CGRect) -> CGRect {
         var customBounds = super.trackRect(forBounds: bounds)
-        customBounds.size.height = 15
+        customBounds.size.height = 12.5
         return customBounds
     }
     
