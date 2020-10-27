@@ -54,8 +54,7 @@ class HomeScreenController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        //Owo
-        //Uwu
+
         //self.clearDefaults()
         self.setup()
     }
@@ -216,7 +215,7 @@ extension HomeScreenController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return LightManager.shared.lights.count
     }
-    //UwuOwo
+
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Shade.LightCell", for: indexPath) as! LightCell
         let light = LightManager.shared.lights[indexPath.row]
@@ -236,7 +235,7 @@ extension HomeScreenController: UICollectionViewDataSource {
         
         return cell
     }
-    //UwuOwo
+
     @objc func refreshCollectionView() {
         
         self.dynamicColourView.colours.removeAll()
