@@ -8,6 +8,12 @@
 import Foundation
 import UIKit
 
+enum Context {
+    case brightness
+    case toggle
+    case colour
+}
+
 struct Light {
     var id: String?
     var state: LightState?
@@ -107,14 +113,13 @@ class LightManager {
         }
     }
     
-    private func sendCommand(_ light: Light, _ command: String, _ index: Int) {
+    private func sendCommand(_ light: Light, _ command: String, _ index: Int, _ context: Context) {
         if let url = URL(string: "http://\(light.ip!)/api/\(light.username!)/lights/\(light.id!)/state") {
             NetworkManager.shared.request(url: url, method: "PUT", headers: nil, jsonbody: command, completion: { (success, dict) -> Void in
                 DispatchQueue.main.async {
                     let generator = UINotificationFeedbackGenerator()
                     
                     if success {
-                        print(dict)
                         let bridge = "/lights/\(light.id!)/state/"
                         if dict.count == 0 { generator.notificationOccurred(.error); return }
                         
@@ -139,7 +144,7 @@ class LightManager {
                             }
                         }
                         
-                        generator.notificationOccurred(.success)
+                        if context != .brightness { generator.notificationOccurred(.success) }
                         NotificationCenter.default.post(name: .LightRefactor, object: nil)
                     } else {
                         generator.notificationOccurred(.error)
@@ -149,7 +154,17 @@ class LightManager {
         }
     }
     
-    public func toggle(_ light: Light, _ index: Int) {
+    public func getIndex(_ id: String) -> Int {
+        for (index, light2) in self.lights.enumerated() {
+            if light2.id == id {
+                return index
+            }
+        }
+        
+        return -1
+    }
+    
+    public func toggle(_ light: Light) {
         let body: String!
         if light.state!.on! {
             body = "{\"on\":false}"
@@ -157,14 +172,24 @@ class LightManager {
             body = "{\"on\":true}"
         }
         
-        self.sendCommand(light, body, index)
+        let index = self.getIndex(light.id!)
+        self.sendCommand(light, body, index, .toggle)
     }
     
-    public func setColour(_ light: Light, _ index: Int, _ colour: UIColor) {
+    public func setColour(_ light: Light, _ colour: UIColor) {
         let hueColours = colour.hueColours
         let hue = hueColours.h; let sat = hueColours.s; let bri = hueColours.b
         let body = "{\"on\":true, \"sat\":\(sat), \"bri\":\(bri), \"hue\":\(hue)}"
         
-        self.sendCommand(light, body, index)
+        let index = self.getIndex(light.id!)
+        self.sendCommand(light, body, index, .colour)
+    }
+    
+    public func setBrightness(_ light: Light, _ brightness: Int) {
+        let shouldBeOn = !(brightness == 0)
+        let index = self.getIndex(light.id!)
+        let body = "{\"on\":\(shouldBeOn), \"bri\":\(brightness)}"
+        
+        self.sendCommand(light, body, index, .brightness)
     }
 }

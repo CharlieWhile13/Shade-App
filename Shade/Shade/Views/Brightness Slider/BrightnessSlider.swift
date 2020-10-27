@@ -7,10 +7,12 @@
 
 import UIKit
 
-class FatUISlider: UISlider {
+class BrightnessSlider: UISlider {
 
+    /*
     override func trackRect(forBounds bounds: CGRect) -> CGRect {
             return bounds
         }
+ */
     
 }

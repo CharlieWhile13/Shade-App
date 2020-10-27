@@ -223,74 +223,6 @@
             </objects>
             <point key="canvasLocation" x="3834.7826086956525" y="720.53571428571422"/>
         </scene>
-        <!--Control Screen-->
-        <scene sceneID="to7-ce-BRp">
-            <objects>
-                <viewController id="Cli-ZW-K1m" customClass="ControlScreen" customModule="Shade" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="x3s-vp-Vh9">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="1100"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Tig-SZ-w9x">
-                                <rect key="frame" x="0.0" y="44" width="414" height="1022"/>
-                                <subviews>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="kaD-tk-56V" userLabel="Content View">
-                                        <rect key="frame" x="0.0" y="0.0" width="414" height="1000"/>
-                                        <subviews>
-                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Zoa-kt-FOW">
-                                                <rect key="frame" x="132" y="15" width="150" height="150"/>
-                                                <constraints>
-                                                    <constraint firstAttribute="height" constant="150" id="9Dm-nv-Osx"/>
-                                                    <constraint firstAttribute="width" constant="150" id="M1j-xB-AZ2"/>
-                                                </constraints>
-                                            </imageView>
-                                            <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="03m-cU-aQp" customClass="FatUISlider" customModule="Shade" customModuleProvider="target">
-                                                <rect key="frame" x="48" y="190" width="318" height="26"/>
-                                                <constraints>
-                                                    <constraint firstAttribute="height" constant="25" id="lzk-YX-m72"/>
-                                                </constraints>
-                                                <color key="maximumTrackTintColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                            </slider>
-                                        </subviews>
-                                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="1000" id="9Zq-Gk-dZ7"/>
-                                            <constraint firstItem="Zoa-kt-FOW" firstAttribute="centerX" secondItem="kaD-tk-56V" secondAttribute="centerX" id="FFH-HF-w4X"/>
-                                            <constraint firstAttribute="trailing" secondItem="03m-cU-aQp" secondAttribute="trailing" constant="50" id="LNa-9k-6MC"/>
-                                            <constraint firstItem="Zoa-kt-FOW" firstAttribute="top" secondItem="kaD-tk-56V" secondAttribute="top" constant="15" id="Mgj-67-bbH"/>
-                                            <constraint firstItem="03m-cU-aQp" firstAttribute="centerX" secondItem="kaD-tk-56V" secondAttribute="centerX" id="RAI-so-war"/>
-                                            <constraint firstItem="03m-cU-aQp" firstAttribute="top" secondItem="Zoa-kt-FOW" secondAttribute="bottom" constant="25" id="ST7-Hm-Ruv"/>
-                                            <constraint firstItem="03m-cU-aQp" firstAttribute="leading" secondItem="kaD-tk-56V" secondAttribute="leading" constant="50" id="s8w-za-klD"/>
-                                        </constraints>
-                                    </view>
-                                </subviews>
-                                <constraints>
-                                    <constraint firstItem="kaD-tk-56V" firstAttribute="trailing" secondItem="TsM-1A-qSh" secondAttribute="trailing" id="2o8-0x-YaQ"/>
-                                    <constraint firstItem="kaD-tk-56V" firstAttribute="leading" secondItem="TsM-1A-qSh" secondAttribute="leading" id="Oz9-8W-sh9"/>
-                                    <constraint firstItem="kaD-tk-56V" firstAttribute="width" secondItem="QuX-cp-kWQ" secondAttribute="width" id="P9D-Hk-22Z"/>
-                                    <constraint firstItem="kaD-tk-56V" firstAttribute="bottom" secondItem="TsM-1A-qSh" secondAttribute="bottom" id="RNQ-ej-of3"/>
-                                    <constraint firstItem="kaD-tk-56V" firstAttribute="top" secondItem="TsM-1A-qSh" secondAttribute="top" id="hJx-FN-hu3"/>
-                                </constraints>
-                                <viewLayoutGuide key="contentLayoutGuide" id="TsM-1A-qSh"/>
-                                <viewLayoutGuide key="frameLayoutGuide" id="QuX-cp-kWQ"/>
-                            </scrollView>
-                        </subviews>
-                        <viewLayoutGuide key="safeArea" id="bcJ-Bl-a3P"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                        <constraints>
-                            <constraint firstItem="Tig-SZ-w9x" firstAttribute="leading" secondItem="bcJ-Bl-a3P" secondAttribute="leading" id="36p-O3-Ur6"/>
-                            <constraint firstItem="bcJ-Bl-a3P" firstAttribute="trailing" secondItem="Tig-SZ-w9x" secondAttribute="trailing" id="Qvr-8r-0cJ"/>
-                            <constraint firstItem="Tig-SZ-w9x" firstAttribute="top" secondItem="bcJ-Bl-a3P" secondAttribute="top" id="cLw-bt-sbs"/>
-                            <constraint firstItem="bcJ-Bl-a3P" firstAttribute="bottom" secondItem="Tig-SZ-w9x" secondAttribute="bottom" id="rgS-0F-0bM"/>
-                        </constraints>
-                    </view>
-                    <navigationItem key="navigationItem" id="LU7-L4-XPI"/>
-                    <size key="freeformSize" width="414" height="1100"/>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="9vU-cl-8hh" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="5124.6376811594209" y="720.53571428571422"/>
-        </scene>
         <!--Home-->
         <scene sceneID="vaM-9G-5Pm">
             <objects>
@@ -319,6 +251,7 @@
                 <tabBarController automaticallyAdjustsScrollViewInsets="NO" id="W9K-lY-oV5" sceneMemberID="viewController">
                     <toolbarItems/>
                     <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="hhg-e5-fmS">
+                        <rect key="frame" x="0.0" y="0.0" width="1000" height="1000"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     </tabBar>
@@ -332,7 +265,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="house.fill" catalog="system" width="128" height="106"/>
+        <image name="house.fill" catalog="system" width="32" height="32"/>
         <systemColor name="labelColor">
             <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

@@ -12,6 +12,9 @@ class HomeScreenController: UIViewController {
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var dynamicColourView: DynamicColourView!
     
+    var containerView = UIView()
+    var popupView: LightControlPopover = .fromNib()
+    
     override var prefersStatusBarHidden: Bool {
         return true
     }
@@ -64,6 +67,8 @@ class HomeScreenController: UIViewController {
                 let generator = UINotificationFeedbackGenerator()
                 generator.notificationOccurred(.success)
                 
+                /*
+            
                 let picker = OWOUIColorPickerViewController()
                 picker.delegate = self
                 picker.supportsAlpha = false
@@ -71,9 +76,42 @@ class HomeScreenController: UIViewController {
                 picker.index = indexPath.row
                 
                 self.present(picker, animated: true, completion: nil)
+ */
+                self.showPopup(LightManager.shared.lights[indexPath.row])
             }
         }
-
+    }
+    
+    @objc func hidePopup() {
+        let screenSize = UIScreen.main.bounds.size
+          UIView.animate(withDuration: 0.5,
+                         delay: 0, usingSpringWithDamping: 1.0,
+                         initialSpringVelocity: 1.0,
+                         options: .curveEaseInOut, animations: {
+            self.containerView.alpha = 0
+          }, completion: nil)
+    }
+    
+    private func showPopup(_ light: Light) {
+        containerView.backgroundColor = UIColor.black.withAlphaComponent(0.9)
+        containerView.frame = self.view.frame
+        self.view.addSubview(containerView)
+        
+        let tapGesture = UITapGestureRecognizer(target: self,
+                            action: #selector(hidePopup))
+        containerView.addGestureRecognizer(tapGesture)
+        
+        containerView.alpha = 0
+          UIView.animate(withDuration: 0.5,
+                         delay: 0, usingSpringWithDamping: 1.0,
+                         initialSpringVelocity: 1.0,
+                         options: .curveEaseInOut, animations: {
+            self.containerView.alpha = 0.8
+          }, completion: nil)
+        
+        self.popupView.frame = self.view.frame
+        self.popupView.lightID = light.id!
+        self.view.addSubview(popupView)
     }
 }
 
@@ -89,7 +127,7 @@ extension HomeScreenController: UICollectionViewDelegateFlowLayout {
 
 extension HomeScreenController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        LightManager.shared.toggle(LightManager.shared.lights[indexPath.row], indexPath.row)
+        LightManager.shared.toggle(LightManager.shared.lights[indexPath.row])
     }
 }
 
@@ -129,7 +167,7 @@ extension HomeScreenController: UIColorPickerViewControllerDelegate {
     func colorPickerViewControllerDidFinish(_ viewController: UIColorPickerViewController) {
         if viewController is OWOUIColorPickerViewController {
             let funky = viewController as! OWOUIColorPickerViewController
-            LightManager.shared.setColour(LightManager.shared.lights[funky.index], funky.index, viewController.selectedColor)
+            LightManager.shared.setColour(LightManager.shared.lights[funky.index], viewController.selectedColor)
         }
     }
 }
